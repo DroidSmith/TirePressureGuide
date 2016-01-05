@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_recents"
+            android:icon="@drawable/ic_history_black"
+            android:title="Recent"/>
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_add_circle_outline_black"
+            android:title="Add"/>
+     </group>
+
+    <item android:title="Help &amp; Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_settings_black"
+                android:title="Settings"/>
+            <item
+                   android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help_black"
+                android:title="Help"/>
+        </menu>
+    </item>
+
+</menu>
