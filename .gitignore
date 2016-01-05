@@ -26,6 +26,11 @@ proguard/
 # Log Files
 *.log
 
-/.idea/
+/.idea/libraries
+/.idea/workspace.xml
+.idea/
 *.iml
 
+*.db
+gradle.properties
+.DS_Store
