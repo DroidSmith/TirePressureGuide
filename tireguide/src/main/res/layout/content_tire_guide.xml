@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weightText"
         android:layout_alignLeft="@+id/rearLoad"
+        android:layout_alignStart="@+id/rearLoad"
         android:hint="@string/bike_weight"
         android:imeOptions="actionNext"
         android:inputType="numberDecimal"
