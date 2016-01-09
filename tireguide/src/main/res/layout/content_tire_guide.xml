@@ -17,22 +17,19 @@
         android:id="@+id/weightText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="5dp"
-        android:paddingRight="5dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/primary_text_dark"
         android:text="@string/weights"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textColor="@android:color/primary_text_light"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/weightUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_alignBaseline="@+id/weightText"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@android:color/primary_text_light"
+        android:textStyle="bold"
         android:layout_toEndOf="@+id/weightText"
         android:layout_toRightOf="@+id/weightText"
         android:text="@string/lbs"/>
@@ -42,28 +39,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weightText"
-         android:hint="@string/body_weight"
+        android:hint="@string/body_weight"
         android:imeOptions="actionNext"
         android:inputType="numberDecimal"
         android:maxLength="5"
         android:nextFocusDown="@+id/bikeWeight"
-        android:nextFocusForward="@+id/bikeWeight"
-        android:textAppearance="?android:textAppearanceSmall"/>
+        android:nextFocusForward="@+id/bikeWeight"/>
 
     <EditText
         android:id="@+id/bikeWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weightText"
-        android:layout_centerInParent="true"
+        android:layout_alignLeft="@+id/rearLoad"
         android:hint="@string/bike_weight"
         android:imeOptions="actionNext"
         android:inputType="numberDecimal"
         android:maxLength="4"
         android:nextFocusDown="@+id/frontWidth"
         android:nextFocusForward="@+id/frontWidth"
-        android:nextFocusUp="@+id/bodyWeight"
-        android:textAppearance="?android:textAppearanceSmall"/>
+        android:nextFocusUp="@+id/bodyWeight"/>
 
     <TextView
         android:id="@+id/tireWidths"
@@ -71,19 +66,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bodyWeight"
         android:text="@string/tire_width"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/primary_text_dark"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textColor="@android:color/primary_text_light"
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/frontWidthLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/frontWidth"
         android:layout_below="@+id/tireWidths"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:text="@string/front"/>
+        android:text="@string/front"
+        android:textAppearance="?android:textAppearanceMedium"/>
 
     <Spinner
         android:id="@+id/frontWidth"
@@ -120,7 +115,8 @@
         android:layout_marginRight="5dp"
         android:layout_toEndOf="@+id/frontWidthUnits"
         android:layout_toRightOf="@+id/frontWidthUnits"
-        android:text="@string/rear"/>
+        android:text="@string/rear"
+        android:textAppearance="?android:textAppearanceMedium"/>
 
     <Spinner
         android:id="@+id/rearWidth"
@@ -151,15 +147,13 @@
 
     <TextView
         android:id="@+id/loadText"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rearWidth"
-        android:paddingEnd="5dp"
-        android:paddingRight="5dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/primary_text_dark"
         android:text="@string/tire_load"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textColor="@android:color/primary_text_light"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/frontLoad"
@@ -169,11 +163,10 @@
         android:hint="@string/front"
         android:imeOptions="actionNext"
         android:inputType="numberDecimal"
-       android:maxLength="4"
+        android:maxLength="4"
         android:nextFocusDown="@+id/frontLoadUnits"
         android:nextFocusForward="@+id/frontLoadUnits"
-        android:nextFocusUp="@+id/rearWidth"
-        android:textAppearance="?android:textAppearanceSmall"/>
+        android:nextFocusUp="@+id/rearWidth"/>
 
     <Spinner
         android:id="@+id/frontLoadUnits"
@@ -181,8 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loadText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_alignBaseline="@+id/frontLoad"
+        android:layout_alignBottom="@+id/frontLoad"
         android:layout_toEndOf="@+id/frontLoad"
         android:layout_toRightOf="@+id/frontLoad"
         android:focusable="true"
@@ -194,19 +186,18 @@
         android:id="@+id/rearLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/bikeWeight"
-        android:layout_alignStart="@+id/bikeWeight"
         android:layout_below="@+id/loadText"
-        android:layout_toEndOf="@+id/frontLoad"
-        android:layout_toRightOf="@+id/frontLoad"
+        android:layout_alignLeft="@+id/rearWidthLabel"
+        android:layout_alignStart="@+id/rearWidthLabel"
+        android:layout_toEndOf="@+id/frontLoadUnits"
+        android:layout_toRightOf="@+id/frontLoadUnits"
         android:hint="@string/rear"
         android:imeOptions="actionGo"
         android:inputType="numberDecimal"
         android:maxLength="5"
         android:nextFocusDown="@+id/rearLoadUnits"
         android:nextFocusForward="@+id/rearLoadUnits"
-        android:nextFocusUp="@+id/frontLoadUnits"
-        android:textAppearance="?android:textAppearanceSmall"/>
+        android:nextFocusUp="@+id/frontLoadUnits"/>
 
     <Spinner
         android:id="@+id/rearLoadUnits"
@@ -214,8 +205,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loadText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_alignBaseline="@+id/rearLoad"
+        android:layout_alignBottom="@+id/rearLoad"
         android:layout_toEndOf="@+id/rearLoad"
         android:layout_toRightOf="@+id/rearLoad"
         android:focusable="true"
@@ -236,7 +226,7 @@
         android:nextFocusUp="@+id/rearLoadUnits"
         android:onClick="onCalculateTirePressure"
         android:text="@string/calculate"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/primary_text_dark"/>
 
     <TextView
         android:id="@+id/totalWeightLabel"

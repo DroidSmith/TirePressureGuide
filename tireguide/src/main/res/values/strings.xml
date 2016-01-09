@@ -8,7 +8,7 @@
     <string name="body_weight">Body</string>
     <string name="total_weight">Total Weight</string>
     <string name="lbs">(lbs)</string>
-    <string name="bike_weight">Bike/Gear/Water</string>
+    <string name="bike_weight">Bike &amp; Gear</string>
     <string name="zero">0</string>
     <string name="calculate">Calculate Tire Pressures</string>
     <string name="front_load">Front Load</string>
