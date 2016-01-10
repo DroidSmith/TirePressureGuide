@@ -43,7 +43,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	double frontLoadPercent;
 	double rearLoadWeight;
 	double rearLoadPercent;
-	TirePresureDataBase tirePresureDataBase;
+	TirePressureDataBase tirePressureDataBase;
 	private EditText profileName;
 	private EditText bodyWeight;
 	private EditText bikeWeight;
@@ -70,7 +70,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		setContentView(R.layout.activity_tire_guide);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		tirePresureDataBase = new TirePresureDataBase(this);
+		tirePressureDataBase = new TirePressureDataBase(this);
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -195,19 +195,19 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				final String selectedItem = (String) parent.getSelectedItem();
 				if (Constants.RACER.equals(selectedItem)) {
-					frontLoad.setText("45");
+					frontLoad.setText(Constants.RACER_FRONT);
 					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText("62");
+					rearLoad.setText(Constants.RACER_REAR);
 					rearLoadUnits.setSelection(0, Boolean.TRUE);
 				} else if (Constants.SPORT.equals(selectedItem)) {
-					frontLoad.setText("42");
+					frontLoad.setText(Constants.SPORT_FRONT);
 					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText("60");
+					rearLoad.setText(Constants.SPORT_REAR);
 					rearLoadUnits.setSelection(0, Boolean.TRUE);
 				} else {
-					frontLoad.setText("40");
+					frontLoad.setText(Constants.CASUAL_FRONT);
 					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText("62");
+					rearLoad.setText(Constants.CASUAL_REAR);
 					rearLoadUnits.setSelection(0, Boolean.TRUE);
 				}
 			}
@@ -225,7 +225,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		final String frontTireWidth = (String) frontWidth.getSelectedItem();
 		final String rearTireWidth = (String) rearWidth.getSelectedItem();
 		onCalculateTirePressure(view);
-		tirePresureDataBase.open();
+		tirePressureDataBase.open();
 		ContentValues values = new ContentValues();
 		values.put(ProfileColumns.PROFILE_NAME, profileNameText);
 		values.put(ProfileColumns.RIDER_TYPE, riderTypeText);
@@ -235,11 +235,11 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		values.put(ProfileColumns.REAR_TIRE_WIDTH, rearTireWidth);
 		values.put(ProfileColumns.FRONT_LOAD_PERCENT, frontLoadPercent);
 		values.put(ProfileColumns.REAR_LOAD_PERCENT, rearLoadPercent);
-		if (!tirePresureDataBase.updateProfile(0, values))     {
-			tirePresureDataBase.addProfile(values);
+		if (!tirePressureDataBase.updateProfile(0, values))     {
+			tirePressureDataBase.addProfile(values);
 		}
 
-		tirePresureDataBase.close();
+		tirePressureDataBase.close();
 	}
 
 	public void onCalculateTirePressure(View view) {
