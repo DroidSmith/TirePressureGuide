@@ -10,13 +10,13 @@ import android.provider.BaseColumns;
 /**
  * Defines a Database to store bike profiles.
  */
-public class TirePresureDataBase extends SQLiteOpenHelper {
+public class TirePressureDataBase extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "bikeprofile.db";
 	private static final int DATABASE_VERSION = 1;
 
 	private SQLiteDatabase database;
 
-	public TirePresureDataBase(Context context) {
+	public TirePressureDataBase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
