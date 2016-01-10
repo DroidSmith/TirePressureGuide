@@ -1,7 +1,7 @@
 package com.droidsmith.tireguide;
 
 /**
- * Created by steve on 1/2/16.
+ * Constants shared by the project.
  */
 public class Constants {
 	public static final String TIRE_INFLATION_PDF = "http://www.bccclub.org/documents/Tireinflation.pdf";
