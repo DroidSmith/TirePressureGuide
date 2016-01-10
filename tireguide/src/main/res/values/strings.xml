@@ -24,8 +24,10 @@
     <string name="weights">Body, Bike and Gear Weights</string>
     <string name="tire_load">Front/Rear Load</string>
     <string name="loadPercentLabel"> at %s%%</string>
+	<string name="profile_name">Profile/Rider name</string>
+	<string name="profiles"><![CDATA[Profile name & rider type]]></string>
 
-    <string-array name="width_array">
+	<string-array name="width_array">
         <item>23</item>
         <item>25</item>
     </string-array>
@@ -34,4 +36,10 @@
         <item>%</item>
         <item>lbs</item>
     </string-array>
+
+	<string-array name="rider_type_array">
+		<item>Racer</item>
+		<item>Sport</item>
+		<item>Casual</item>
+	</string-array>
 </resources>

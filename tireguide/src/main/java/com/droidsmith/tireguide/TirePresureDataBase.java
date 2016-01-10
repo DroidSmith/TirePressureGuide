@@ -16,27 +16,8 @@ public class TirePresureDataBase extends SQLiteOpenHelper {
 
 	private SQLiteDatabase database;
 
-	interface Tables {
-		String PROFILES = "profiles";
-	}
-
 	public TirePresureDataBase(Context context) {
-		super(context, DATABASE_NAME, null,	DATABASE_VERSION);
-	}
-
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + Tables.PROFILES + " (" + BaseColumns._ID + " INTEGER PRIMARY " +
-				"KEY AUTOINCREMENT," + "profile_name TEXT, body_weight NUMBER, bike_weight " +
-				"NUMBER, front_tire_width NUMBER, rear_tire_width NUMBER, " +
-				"rider_type TEXT, front_load_percent " +
-				"NUMBER, rear_load_percent NUMBER)");
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.PROFILES);
-		onCreate(db);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	/**
@@ -51,6 +32,21 @@ public class TirePresureDataBase extends SQLiteOpenHelper {
 	 */
 	public void close() {
 		database.close();
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("CREATE TABLE " + Tables.PROFILES + " (" + BaseColumns._ID + " INTEGER PRIMARY " +
+				"KEY AUTOINCREMENT," + ProfileColumns.PROFILE_NAME + " TEXT," + ProfileColumns.RIDER_TYPE + " TEXT," +
+				ProfileColumns.BODY_WEIGHT + " NUMBER," + ProfileColumns.BIKE_WEIGHT + " NUMBER," +
+				ProfileColumns.FRONT_TIRE_WIDTH + " NUMBER," + ProfileColumns.REAR_TIRE_WIDTH + " NUMBER," +
+				ProfileColumns.FRONT_LOAD_PERCENT + " NUMBER," + ProfileColumns.REAR_LOAD_PERCENT + " NUMBER)");
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.PROFILES);
+		onCreate(db);
 	}
 
 	/**
@@ -77,8 +73,7 @@ public class TirePresureDataBase extends SQLiteOpenHelper {
 	 * @return A profile record cursor from the database.
 	 */
 	public Cursor fetchProfile(long rowId) {
-		return database.query(true, Tables.PROFILES, null, BaseColumns._ID + "=" + rowId, null,
-				null, null, null, null);
+		return database.query(true, Tables.PROFILES, null, BaseColumns._ID + "=" + rowId, null, null, null, null, null);
 	}
 
 	/**
@@ -86,8 +81,7 @@ public class TirePresureDataBase extends SQLiteOpenHelper {
 	 * @return A profile record cursor containing all profiles from the database.
 	 */
 	public Cursor fetchAllProfiles() {
-		return database.query(true, Tables.PROFILES, null, null, null,
-				null, null, null, null);
+		return database.query(true, Tables.PROFILES, null, null, null, null, null, null, null);
 	}
 
 	/**
@@ -97,7 +91,10 @@ public class TirePresureDataBase extends SQLiteOpenHelper {
 	 * @return Whether the profile was updated or not.
 	 */
 	public boolean updateProfile(long rowId, ContentValues contentValues) {
-		return database.update(Tables.PROFILES, contentValues, BaseColumns._ID + "=" + rowId,
-				null) > 0;
+		return database.update(Tables.PROFILES, contentValues, BaseColumns._ID + "=" + rowId, null) > 0;
+	}
+
+	interface Tables {
+		String PROFILES = "profiles";
 	}
 }
