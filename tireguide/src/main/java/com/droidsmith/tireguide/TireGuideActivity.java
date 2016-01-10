@@ -197,7 +197,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				if (Constants.RACER.equals(selectedItem)) {
 					frontLoad.setText("45");
 					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText("60");
+					rearLoad.setText("62");
 					rearLoadUnits.setSelection(0, Boolean.TRUE);
 				} else if (Constants.SPORT.equals(selectedItem)) {
 					frontLoad.setText("42");
@@ -207,7 +207,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				} else {
 					frontLoad.setText("40");
 					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText("60");
+					rearLoad.setText("62");
 					rearLoadUnits.setSelection(0, Boolean.TRUE);
 				}
 			}
