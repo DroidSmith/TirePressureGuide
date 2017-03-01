@@ -4,7 +4,8 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+		classpath 'com.android.tools.build:gradle:2.3.0-rc1'
+		classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6'
 	}
 }
 
@@ -12,4 +13,19 @@ allprojects {
 	repositories {
 		jcenter()
 	}
+}
+
+ext {
+	// Libraraies
+	supportLibVersion = '25.1.1'
+	buildToolsVersion = '25.0.2'
+	kotlinVersion = '1.0.6'
+
+	// Testing
+	assertJVersion = '1.7.1'
+	expressoVersion = '2.2.2'
+	jUnitVersion = '4.12'
+	mokitoVersion = '1.9.5'
+	robolectricVersion = '3.0'
+	testingSupportLibVersion = '0.1'
 }

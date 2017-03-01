@@ -1,5 +1,7 @@
 package com.droidsmith.tireguide.calcengine;
 
+import android.text.TextUtils;
+
 /**
  * Created by steve on 12/28/15. Calculates the proper tire pressure for a bicycle tire based on
  * weight and width of tire.
@@ -21,12 +23,18 @@ public class Calculator {
 		double m = 0.0;
 		double b = 0.0;
 		double psi;
-		if ("23".equals(tireWidth)) {
-			m = (115.0 - 91.0) / (110.0 - 88.0);
-			b = 91.0f - (24.0 * 88.0 / 22.0);
-		} else if ("25".equals(tireWidth)) {
-			m = (109.0 - 65.0) / (121.0 - 77.0);
-			b = 109.0 - (m * 121.0);
+		if (TextUtils.equals("23", tireWidth)) {
+			m = 1.136363636f;
+			b = -9.5f;
+		} else if (TextUtils.equals("25", tireWidth)) {
+			m = 1f;
+			b = -13f;
+		} else if (TextUtils.equals("26", tireWidth)) {
+			m = 0.9522727273f;
+			b = -12.55f;
+		} else if (TextUtils.equals("28", tireWidth)) {
+			m = .8022580702f;
+			b = -6.348534297f;
 		}
 
 		psi = loadWeight * m + b;

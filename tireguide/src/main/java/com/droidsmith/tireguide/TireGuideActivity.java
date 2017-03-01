@@ -1,20 +1,24 @@
 package com.droidsmith.tireguide;
 
 import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,8 +40,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class TireGuideActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-
 	double totalWeight;
 	double frontLoadWeight;
 	double frontLoadPercent;
@@ -63,6 +65,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	private TextView rearTireLabel;
 	private double bodyWeightAmount;
 	private double bikeWeightAmount;
+	private boolean itemSelectedFromProfile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +76,20 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		tirePressureDataBase = new TirePressureDataBase(this);
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		drawer.setDrawerListener(toggle);
-		toggle.syncState();
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+																 drawer,
+																 toolbar,
+																 R.string.navigation_drawer_open,
+																 R.string.navigation_drawer_close);
+		if (drawer != null) {
+			drawer.setDrawerListener(toggle);
+			toggle.syncState();
+		}
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-		navigationView.setNavigationItemSelectedListener(this);
-
+		if (navigationView != null) {
+			navigationView.setNavigationItemSelectedListener(this);
+		}
 		profileName = (EditText) findViewById(R.id.profileName);
 		bodyWeight = (EditText) findViewById(R.id.bodyWeight);
 		bikeWeight = (EditText) findViewById(R.id.bikeWeight);
@@ -98,12 +108,14 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		frontTireLabel = (TextView) findViewById(R.id.frontTire);
 		rearTireLabel = (TextView) findViewById(R.id.rearTire);
 		FloatingActionButton addAction = (FloatingActionButton) findViewById(R.id.fab);
-		addAction.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				onAddProfile(view);
-			}
-		});
+		if (addAction != null) {
+			addAction.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					onAddProfile(view);
+				}
+			});
+		}
 
 		profileName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
@@ -162,6 +174,8 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
 				boolean handled = false;
 				if (actionId == EditorInfo.IME_ACTION_GO) {
+					((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(),
+																												  0);
 					onCalculateTirePressure(view);
 					handled = true;
 				}
@@ -170,46 +184,55 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			}
 		});
 
-		ArrayAdapter<CharSequence> riderTypeAdapter = ArrayAdapter.createFromResource(this, R.array.rider_type_array, R.layout.spinner_item);
+		ArrayAdapter<CharSequence> riderTypeAdapter =
+				ArrayAdapter.createFromResource(this, R.array.rider_type_array, R.layout.spinner_item);
 		riderTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		riderType.setAdapter(riderTypeAdapter);
 
-		ArrayAdapter<CharSequence> frontWidthAdapter = ArrayAdapter.createFromResource(this, R.array.width_array, R.layout.spinner_item);
+		ArrayAdapter<CharSequence> frontWidthAdapter =
+				ArrayAdapter.createFromResource(this, R.array.width_array, R.layout.spinner_item);
 		frontWidthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		frontWidth.setAdapter(frontWidthAdapter);
 
-		ArrayAdapter<CharSequence> rearWidthAdapter = ArrayAdapter.createFromResource(this, R.array.width_array, R.layout.spinner_item);
+		ArrayAdapter<CharSequence> rearWidthAdapter =
+				ArrayAdapter.createFromResource(this, R.array.width_array, R.layout.spinner_item);
 		rearWidthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		rearWidth.setAdapter(rearWidthAdapter);
 
-		ArrayAdapter<CharSequence> frontLoadAdapter = ArrayAdapter.createFromResource(this, R.array.load_array, R.layout.spinner_item);
+		ArrayAdapter<CharSequence> frontLoadAdapter =
+				ArrayAdapter.createFromResource(this, R.array.load_array, R.layout.spinner_item);
 		frontLoadAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		frontLoadUnits.setAdapter(frontLoadAdapter);
 
-		ArrayAdapter<CharSequence> rearLoadAdapter = ArrayAdapter.createFromResource(this, R.array.load_array, R.layout.spinner_item);
+		ArrayAdapter<CharSequence> rearLoadAdapter =
+				ArrayAdapter.createFromResource(this, R.array.load_array, R.layout.spinner_item);
 		rearLoadAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		rearLoadUnits.setAdapter(rearLoadAdapter);
 
 		riderType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				final String selectedItem = (String) parent.getSelectedItem();
-				if (Constants.RACER.equals(selectedItem)) {
-					frontLoad.setText(Constants.RACER_FRONT);
-					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText(Constants.RACER_REAR);
-					rearLoadUnits.setSelection(0, Boolean.TRUE);
-				} else if (Constants.SPORT.equals(selectedItem)) {
-					frontLoad.setText(Constants.SPORT_FRONT);
-					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText(Constants.SPORT_REAR);
-					rearLoadUnits.setSelection(0, Boolean.TRUE);
-				} else {
-					frontLoad.setText(Constants.CASUAL_FRONT);
-					frontLoadUnits.setSelection(0, Boolean.TRUE);
-					rearLoad.setText(Constants.CASUAL_REAR);
-					rearLoadUnits.setSelection(0, Boolean.TRUE);
+				if (!itemSelectedFromProfile) {
+					final String selectedItem = (String) parent.getSelectedItem();
+					if (TextUtils.equals(Constants.RACER, selectedItem)) {
+						frontLoad.setText(Constants.RACER_FRONT);
+						frontLoadUnits.setSelection(0, Boolean.TRUE);
+						rearLoad.setText(Constants.RACER_REAR);
+						rearLoadUnits.setSelection(0, Boolean.TRUE);
+					} else if (TextUtils.equals(Constants.SPORT, selectedItem)) {
+						frontLoad.setText(Constants.SPORT_FRONT);
+						frontLoadUnits.setSelection(0, Boolean.TRUE);
+						rearLoad.setText(Constants.SPORT_REAR);
+						rearLoadUnits.setSelection(0, Boolean.TRUE);
+					} else {
+						frontLoad.setText(Constants.CASUAL_FRONT);
+						frontLoadUnits.setSelection(0, Boolean.TRUE);
+						rearLoad.setText(Constants.CASUAL_REAR);
+						rearLoadUnits.setSelection(0, Boolean.TRUE);
+					}
 				}
+
+				itemSelectedFromProfile = false;
 			}
 
 			@Override
@@ -217,70 +240,20 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 
 			}
 		});
+
+		getProfile();
 	}
 
-	void onAddProfile(View view) {
-		final String profileNameText = (profileName.getText() != null && !"".equals(profileName.getText().toString())) ? profileName.getText().toString() : Constants.DEFAULT;
-		final String riderTypeText = (String) riderType.getSelectedItem();
-		final String frontTireWidth = (String) frontWidth.getSelectedItem();
-		final String rearTireWidth = (String) rearWidth.getSelectedItem();
-		onCalculateTirePressure(view);
-		tirePressureDataBase.open();
-		ContentValues values = new ContentValues();
-		values.put(ProfileColumns.PROFILE_NAME, profileNameText);
-		values.put(ProfileColumns.RIDER_TYPE, riderTypeText);
-		values.put(ProfileColumns.BODY_WEIGHT, bodyWeightAmount);
-		values.put(ProfileColumns.BIKE_WEIGHT, bikeWeightAmount);
-		values.put(ProfileColumns.FRONT_TIRE_WIDTH, frontTireWidth);
-		values.put(ProfileColumns.REAR_TIRE_WIDTH, rearTireWidth);
-		values.put(ProfileColumns.FRONT_LOAD_PERCENT, frontLoadPercent);
-		values.put(ProfileColumns.REAR_LOAD_PERCENT, rearLoadPercent);
-		if (!tirePressureDataBase.updateProfile(0, values))     {
-			tirePressureDataBase.addProfile(values);
+	@Override
+	protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		if (frontLoadPercent > 0) {
+			frontLoad.setText(fmt(frontLoadPercent));
 		}
 
-		tirePressureDataBase.close();
-	}
-
-	public void onCalculateTirePressure(View view) {
-		((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
-		final String bodyWeightText = (bodyWeight.getText() != null && !"".equals(bodyWeight.getText().toString())) ? bodyWeight.getText().toString() : "0.0";
-		final String bikeWeightText = (bikeWeight.getText() != null && !"".equals(bikeWeight.getText().toString())) ? bikeWeight.getText().toString() : "0.0";
-		final String frontLoadText = (frontLoad.getText() != null && !"".equals(frontLoad.getText().toString())) ? frontLoad.getText().toString() : "0.0";
-		final String rearLoadText = (rearLoad.getText() != null && !"".equals(rearLoad.getText().toString())) ? rearLoad.getText().toString() : "0.0";
-
-		bodyWeightAmount = Double.parseDouble(bodyWeightText);
-		bikeWeightAmount = Double.parseDouble(bikeWeightText);
-		totalWeight = bodyWeightAmount + bikeWeightAmount;
-		totalWeightLabel.setText(fmt(totalWeight));
-		final String frontLoadItem = (String) frontLoadUnits.getSelectedItem();
-		if ("%".equals(frontLoadItem)) {
-			frontLoadPercent = Double.parseDouble(frontLoadText) / 100;
-			frontLoadWeight = totalWeight * frontLoadPercent;
-			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), frontLoadText));
-		} else {
-			frontLoadPercent = Double.parseDouble(frontLoadText) * 100 / totalWeight;
-			frontLoadWeight = Double.parseDouble(frontLoadText);
-			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(frontLoadPercent)));
+		if (rearLoadPercent > 0) {
+			rearLoad.setText(fmt(rearLoadPercent));
 		}
-
-		final String rearLoadItem = (String) rearLoadUnits.getSelectedItem();
-		if ("%".equals(rearLoadItem)) {
-			rearLoadPercent = Double.parseDouble(rearLoadText) / 100;
-			rearLoadWeight = totalWeight * rearLoadPercent;
-			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), rearLoadText));
-		} else {
-			rearLoadPercent = Double.parseDouble(rearLoadText) * 100 / totalWeight;
-			rearLoadWeight = Double.parseDouble(rearLoadText);
-			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(rearLoadPercent)));
-		}
-
-		frontLoadWeightLabel.setText(fmt(frontLoadWeight));
-		rearLoadWeightLabel.setText(fmt(rearLoadWeight));
-		Calculator frontTireCalculator = new Calculator(frontLoadWeight, (String) frontWidth.getSelectedItem());
-		frontTireLabel.setText(fmt(Math.round(frontTireCalculator.psi())));
-		Calculator rearTireCalculator = new Calculator(rearLoadWeight, (String) rearWidth.getSelectedItem());
-		rearTireLabel.setText(fmt(Math.round(rearTireCalculator.psi())));
 	}
 
 	private String fmt(double d) {
@@ -291,10 +264,68 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 	}
 
+	/**
+	 * Retrieves the profile from the database and displays the values.
+	 */
+	void getProfile() {
+		final Cursor profile = tirePressureDataBase.getProfiles();
+		if (profile != null) {
+			profile.moveToFirst();
+			while (!profile.isAfterLast()) {
+				itemSelectedFromProfile = true;
+				profileName.setText(profile.getString(ProfileColumns.Profiles.PROFILE_NAME));
+				bodyWeightAmount = profile.getDouble(ProfileColumns.Profiles.BODY_WEIGHT);
+				bodyWeight.setText(fmt(bodyWeightAmount));
+
+				bikeWeightAmount = profile.getDouble(ProfileColumns.Profiles.BIKE_WEIGHT);
+				bikeWeight.setText(fmt(bikeWeightAmount));
+
+				String riderTypeString = profile.getString(ProfileColumns.Profiles.RIDER_TYPE);
+				if (TextUtils.equals(Constants.RACER, riderTypeString)) {
+					riderType.setSelection(0);
+				} else if (TextUtils.equals(Constants.SPORT, riderTypeString)) {
+					riderType.setSelection(1);
+				} else {
+					riderType.setSelection(2);
+				}
+
+				String frontTireWidthString = profile.getString(ProfileColumns.Profiles.FRONT_TIRE_WIDTH);
+				// There has to be a better way than checking every value
+				if (TextUtils.equals("23", frontTireWidthString)) {
+					frontWidth.setSelection(0);
+				} else if (TextUtils.equals("25", frontTireWidthString)) {
+					frontWidth.setSelection(1);
+				} else if (TextUtils.equals("26", frontTireWidthString)) {
+					frontWidth.setSelection(2);
+				} else {
+					frontWidth.setSelection(3);
+				}
+
+				String rearTireWidthString = profile.getString(ProfileColumns.Profiles.REAR_TIRE_WIDTH);
+				if (TextUtils.equals("23", rearTireWidthString)) {
+					rearWidth.setSelection(0);
+				} else if (TextUtils.equals("25", frontTireWidthString)) {
+					rearWidth.setSelection(1);
+				} else if (TextUtils.equals("26", frontTireWidthString)) {
+					rearWidth.setSelection(2);
+				} else {
+					rearWidth.setSelection(3);
+				}
+
+				frontLoadPercent = profile.getDouble(ProfileColumns.Profiles.FRONT_LOAD_PERCENT);
+				frontLoad.setText(fmt(frontLoadPercent));
+
+				rearLoadPercent = profile.getDouble(ProfileColumns.Profiles.REAR_LOAD_PERCENT);
+				rearLoad.setText(fmt(rearLoadPercent));
+				profile.moveToNext();
+			}
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		if (drawer.isDrawerOpen(GravityCompat.START)) {
+		if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
 			super.onBackPressed();
@@ -325,15 +356,18 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
-	public boolean onNavigationItemSelected(MenuItem item) {
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
 		if (id == R.id.nav_recents) {
 
 		} else if (id == R.id.nav_add) {
-			final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
-			onAddProfile(viewGroup);
+			final ViewGroup group = (ViewGroup) this.findViewById(android.R.id.content);
+			if (group != null) {
+				final ViewGroup viewGroup = (ViewGroup) group.getChildAt(0);
+				onAddProfile(viewGroup);
+			}
 		} else if (id == R.id.nav_manage) {
 
 		} else if (id == R.id.nav_help) {
@@ -351,7 +385,8 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				startActivity(chooser);
 			} else {
 				//If no internal viewer is present, then allow Google Docs Viewer to view the PDF.
-				intent.setData(Uri.parse("http://docs.google.com/gview?embedded=true&url=" + Constants.TIRE_INFLATION_PDF));
+				intent.setData(Uri.parse(
+						"http://docs.google.com/gview?embedded=true&url=" + Constants.TIRE_INFLATION_PDF));
 				try {
 					startActivity(intent);
 				} catch (ActivityNotFoundException e) {
@@ -361,7 +396,74 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		drawer.closeDrawer(GravityCompat.START);
+		if (drawer != null) {
+			drawer.closeDrawer(GravityCompat.START);
+		}
+
 		return true;
+	}
+
+	void onAddProfile(View view) {
+		final String profileNameText =
+				(TextUtils.isEmpty(profileName.getText())) ? Constants.DEFAULT : profileName.getText().toString();
+		final String riderTypeText = (String) riderType.getSelectedItem();
+		final String frontTireWidth = (String) frontWidth.getSelectedItem();
+		final String rearTireWidth = (String) rearWidth.getSelectedItem();
+		onCalculateTirePressure(view);
+		final long profile = tirePressureDataBase.addProfile(profileNameText,
+															 riderTypeText,
+															 bodyWeightAmount,
+															 bikeWeightAmount,
+															 frontTireWidth,
+															 rearTireWidth,
+															 frontLoadPercent,
+															 rearLoadPercent);
+		if (profile == 0f) {
+			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
+		} else {
+			Snackbar.make(view, "Created a new record with id: " + profile, Snackbar.LENGTH_SHORT).show();
+		}
+	}
+
+	public void onCalculateTirePressure(View view) {
+		final String bodyWeightText =
+				(TextUtils.isEmpty(bodyWeight.getText())) ? "0.0" : bodyWeight.getText().toString();
+		final String bikeWeightText =
+				(TextUtils.isEmpty(bikeWeight.getText())) ? "0.0" : bikeWeight.getText().toString();
+		final String frontLoadText = (TextUtils.isEmpty(frontLoad.getText())) ? "0.0" : frontLoad.getText().toString();
+		final String rearLoadText = (TextUtils.isEmpty(rearLoad.getText())) ? "0.0" : rearLoad.getText().toString();
+
+		bodyWeightAmount = Double.parseDouble(bodyWeightText);
+		bikeWeightAmount = Double.parseDouble(bikeWeightText);
+		totalWeight = bodyWeightAmount + bikeWeightAmount;
+		totalWeightLabel.setText(fmt(totalWeight));
+		final String frontLoadItem = (String) frontLoadUnits.getSelectedItem();
+		if (TextUtils.equals("%", frontLoadItem)) {
+			frontLoadPercent = Double.parseDouble(frontLoadText);
+			frontLoadWeight = totalWeight * frontLoadPercent / 100;
+			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), frontLoadText));
+		} else {
+			frontLoadPercent = Double.parseDouble(frontLoadText) * 100 / totalWeight;
+			frontLoadWeight = Double.parseDouble(frontLoadText);
+			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(frontLoadPercent)));
+		}
+
+		final String rearLoadItem = (String) rearLoadUnits.getSelectedItem();
+		if (TextUtils.equals("%", rearLoadItem)) {
+			rearLoadPercent = Double.parseDouble(rearLoadText);
+			rearLoadWeight = totalWeight * rearLoadPercent / 100;
+			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), rearLoadText));
+		} else {
+			rearLoadPercent = Double.parseDouble(rearLoadText) * 100 / totalWeight;
+			rearLoadWeight = Double.parseDouble(rearLoadText);
+			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(rearLoadPercent)));
+		}
+
+		frontLoadWeightLabel.setText(fmt(frontLoadWeight));
+		rearLoadWeightLabel.setText(fmt(rearLoadWeight));
+		Calculator frontTireCalculator = new Calculator(frontLoadWeight, (String) frontWidth.getSelectedItem());
+		frontTireLabel.setText(fmt(Math.round(frontTireCalculator.psi())));
+		Calculator rearTireCalculator = new Calculator(rearLoadWeight, (String) rearWidth.getSelectedItem());
+		rearTireLabel.setText(fmt(Math.round(rearTireCalculator.psi())));
 	}
 }

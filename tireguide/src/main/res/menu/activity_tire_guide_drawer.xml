@@ -3,25 +3,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_recents"
-            android:icon="@drawable/ic_history_black"
-            android:title="Recent"/>
+			android:id="@+id/nav_recents"
+			android:icon="@drawable/ic_history_black_24dp"
+			android:title="@string/recent" />
         <item
-            android:id="@+id/nav_add"
-            android:icon="@drawable/ic_add_circle_outline_black"
-            android:title="Add"/>
+			android:id="@+id/nav_add"
+			android:icon="@drawable/ic_add_circle_outline_black_24dp"
+			android:title="@string/add" />
      </group>
 
-    <item android:title="Help &amp; Settings">
+	<item android:title="@string/help_and_settings">
         <menu>
             <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_settings_black"
-                android:title="Settings"/>
+				android:id="@+id/nav_manage"
+				android:icon="@drawable/ic_settings_black_24dp"
+				android:title="@string/settings" />
             <item
-                   android:id="@+id/nav_help"
-                android:icon="@drawable/ic_help_black"
-                android:title="Help"/>
+				android:id="@+id/nav_help"
+				android:icon="@drawable/ic_help_outline_black_24dp"
+				android:title="@string/help" />
         </menu>
     </item>
 
