@@ -10,11 +10,11 @@ import android.provider.BaseColumns;
 /**
  * Defines a Database to store bike profiles.
  */
-public class TirePressureDataBase extends SQLiteOpenHelper {
-	private static final String DATABASE_NAME = "bikeprofile.db";
+class TirePressureDataBase extends SQLiteOpenHelper {
+	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	private static final int DATABASE_VERSION = 1;
 
-	public TirePressureDataBase(Context context) {
+	TirePressureDataBase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -24,14 +24,13 @@ public class TirePressureDataBase extends SQLiteOpenHelper {
 	 * @param riderType The rider type.
 	 * @param bodyWeight The rider weight.
 	 * @param bikeWeight The bike and gear weight
-	 * @param frontTireWidth Front tire width (e.g. 23mm, 25mm, 26mm or 28mm)
-	 * @param rearTireWidth Rear tire width (e.g. 23mm, 25mm, 26mm or 28mm)
+	 * @param frontTireWidth Front tire width (e.g. 20mm to 28mm)
+	 * @param rearTireWidth Rear tire width (e.g. 20mm o 28mm)
 	 * @param frontLoadPercent Percent of rider weight on the front wheel.
 	 * @param rearLoadPercent Percent of the rider weight on the rear wheel.
 	 */
-	public long addProfile(String profileName, String riderType, double bodyWeight, double bikeWeight,
-						   String frontTireWidth, String rearTireWidth, double frontLoadPercent,
-						   double rearLoadPercent) {
+	long addProfile(String profileName, String riderType, double bodyWeight, double bikeWeight, String frontTireWidth,
+					String rearTireWidth, double frontLoadPercent, double rearLoadPercent) {
 		ContentValues values = new ContentValues(8);
 		values.put(ProfileColumns.PROFILE_NAME, profileName);
 		values.put(ProfileColumns.RIDER_TYPE, riderType);
@@ -56,7 +55,7 @@ public class TirePressureDataBase extends SQLiteOpenHelper {
 	 * @param contentValues The new data values to update.
 	 * @return Whether the profile was updated or not.
 	 */
-	public boolean updateProfile(String profileName, ContentValues contentValues) {
+	boolean updateProfile(String profileName, ContentValues contentValues) {
 		return getWritableDatabase().update(Tables.PROFILES,
 											contentValues,
 											ProfileColumns.PROFILE_NAME + " = ?",
@@ -72,36 +71,26 @@ public class TirePressureDataBase extends SQLiteOpenHelper {
 		return getWritableDatabase().delete(Tables.PROFILES, BaseColumns._ID + "=" + rowId, null) > 0;
 	}
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + Tables.PROFILES + " (" + BaseColumns._ID + " INTEGER PRIMARY " +
-				"KEY AUTOINCREMENT," + ProfileColumns.PROFILE_NAME + " TEXT," + ProfileColumns.RIDER_TYPE + " TEXT," +
-				ProfileColumns.BODY_WEIGHT + " NUMBER," + ProfileColumns.BIKE_WEIGHT + " NUMBER," +
-				ProfileColumns.FRONT_TIRE_WIDTH + " NUMBER," + ProfileColumns.REAR_TIRE_WIDTH + " NUMBER," +
-				ProfileColumns.FRONT_LOAD_PERCENT + " NUMBER," + ProfileColumns.REAR_LOAD_PERCENT + " NUMBER)");
-	}
-
 	/**
 	 * Fetch a profile record cursor containing all profiles from the database.
 	 * @return A profile record cursor containing all profiles from the database.
 	 */
-	public Cursor getProfiles() {
-		Cursor cursor = getWritableDatabase().query(Tables.PROFILES,
-													new String[] {BaseColumns._ID,
-																  ProfileColumns.PROFILE_NAME,
-																  ProfileColumns.RIDER_TYPE,
-																  ProfileColumns.BODY_WEIGHT,
-																  ProfileColumns.BIKE_WEIGHT,
-																  ProfileColumns.FRONT_TIRE_WIDTH,
-																  ProfileColumns.REAR_TIRE_WIDTH,
-																  ProfileColumns.FRONT_LOAD_PERCENT,
-																  ProfileColumns.REAR_LOAD_PERCENT},
-													null,
-													null,
-													null,
-													null,
-													null);
-		return cursor;
+	Cursor getProfiles() {
+		return getWritableDatabase().query(Tables.PROFILES,
+										   new String[] {BaseColumns._ID,
+														 ProfileColumns.PROFILE_NAME,
+														 ProfileColumns.RIDER_TYPE,
+														 ProfileColumns.BODY_WEIGHT,
+														 ProfileColumns.BIKE_WEIGHT,
+														 ProfileColumns.FRONT_TIRE_WIDTH,
+														 ProfileColumns.REAR_TIRE_WIDTH,
+														 ProfileColumns.FRONT_LOAD_PERCENT,
+														 ProfileColumns.REAR_LOAD_PERCENT},
+										   null,
+										   null,
+										   null,
+										   null,
+										   null);
 	}
 
 	/**
@@ -116,8 +105,7 @@ public class TirePressureDataBase extends SQLiteOpenHelper {
 										   BaseColumns._ID + "=" + rowId,
 										   null,
 										   null,
-										   null,
-										   null, null);
+										   null, null, null);
 	}
 
 	interface Tables {
@@ -125,18 +113,19 @@ public class TirePressureDataBase extends SQLiteOpenHelper {
 	}
 
 	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL(
+				"CREATE TABLE " + Tables.PROFILES + " (" + BaseColumns._ID + " INTEGER PRIMARY " + "KEY AUTOINCREMENT,"
+						+ ProfileColumns.PROFILE_NAME + " TEXT," + ProfileColumns.RIDER_TYPE + " TEXT,"
+						+ ProfileColumns.BODY_WEIGHT + " NUMBER," + ProfileColumns.BIKE_WEIGHT + " NUMBER,"
+						+ ProfileColumns.FRONT_TIRE_WIDTH + " NUMBER," + ProfileColumns.REAR_TIRE_WIDTH + " NUMBER,"
+						+ ProfileColumns.FRONT_LOAD_PERCENT + " NUMBER," + ProfileColumns.REAR_LOAD_PERCENT
+						+ " NUMBER)");
+	}
+
+	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + Tables.PROFILES);
 		onCreate(db);
 	}
-
-
-
-
-
-
-
-
-
-
 }
