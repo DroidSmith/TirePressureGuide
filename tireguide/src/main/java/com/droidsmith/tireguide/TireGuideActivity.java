@@ -1,5 +1,6 @@
 package com.droidsmith.tireguide;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -82,7 +83,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 																 R.string.navigation_drawer_open,
 																 R.string.navigation_drawer_close);
 		if (drawer != null) {
-			drawer.setDrawerListener(toggle);
+			drawer.addDrawerListener(toggle);
 			toggle.syncState();
 		}
 
@@ -112,6 +113,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			addAction.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
+					hideKeyboard(TireGuideActivity.this);
 					onAddProfile(view);
 				}
 			});
@@ -175,7 +177,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				boolean handled = false;
 				if (actionId == EditorInfo.IME_ACTION_GO) {
 					((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(),
-																												  0);
+																												  InputMethodManager.HIDE_NOT_ALWAYS);
 					onCalculateTirePressure(view);
 					handled = true;
 				}
@@ -285,31 +287,55 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 					riderType.setSelection(0);
 				} else if (TextUtils.equals(Constants.SPORT, riderTypeString)) {
 					riderType.setSelection(1);
-				} else {
+				} else if (TextUtils.equals(Constants.CASUAL, riderTypeString)) {
 					riderType.setSelection(2);
+				} else {
+					riderType.setSelection(2); // Default to Casual
 				}
 
 				String frontTireWidthString = profile.getString(ProfileColumns.Profiles.FRONT_TIRE_WIDTH);
 				// There has to be a better way than checking every value
-				if (TextUtils.equals("23", frontTireWidthString)) {
+				if (TextUtils.equals("20", frontTireWidthString)) {
 					frontWidth.setSelection(0);
-				} else if (TextUtils.equals("25", frontTireWidthString)) {
+				} else if (TextUtils.equals("21", frontTireWidthString)) {
 					frontWidth.setSelection(1);
-				} else if (TextUtils.equals("26", frontTireWidthString)) {
+				} else if (TextUtils.equals("22", frontTireWidthString)) {
 					frontWidth.setSelection(2);
-				} else {
+				} else if (TextUtils.equals("23", frontTireWidthString)) {
 					frontWidth.setSelection(3);
+				} else if (TextUtils.equals("24", frontTireWidthString)) {
+					frontWidth.setSelection(4);
+				} else if (TextUtils.equals("25", frontTireWidthString)) {
+					frontWidth.setSelection(5);
+				} else if (TextUtils.equals("26", frontTireWidthString)) {
+					frontWidth.setSelection(6);
+				} else if (TextUtils.equals("27", frontTireWidthString)) {
+					frontWidth.setSelection(7);
+				} else if (TextUtils.equals("28", frontTireWidthString)) {
+					frontWidth.setSelection(8);
+				} else {
+					frontWidth.setSelection(5); //Default to 25mm
 				}
 
 				String rearTireWidthString = profile.getString(ProfileColumns.Profiles.REAR_TIRE_WIDTH);
-				if (TextUtils.equals("23", rearTireWidthString)) {
+				if (TextUtils.equals("20", rearTireWidthString)) {
 					rearWidth.setSelection(0);
-				} else if (TextUtils.equals("25", frontTireWidthString)) {
+				} else if (TextUtils.equals("21", frontTireWidthString)) {
 					rearWidth.setSelection(1);
-				} else if (TextUtils.equals("26", frontTireWidthString)) {
+				} else if (TextUtils.equals("22", frontTireWidthString)) {
 					rearWidth.setSelection(2);
-				} else {
+				} else if (TextUtils.equals("23", frontTireWidthString)) {
 					rearWidth.setSelection(3);
+				} else if (TextUtils.equals("24", frontTireWidthString)) {
+					rearWidth.setSelection(4);
+				} else if (TextUtils.equals("25", frontTireWidthString)) {
+					rearWidth.setSelection(5);
+				} else if (TextUtils.equals("26", frontTireWidthString)) {
+					rearWidth.setSelection(6);
+				} else if (TextUtils.equals("27", frontTireWidthString)) {
+					rearWidth.setSelection(7);
+				} else {
+					rearWidth.setSelection(8);
 				}
 
 				frontLoadPercent = profile.getDouble(ProfileColumns.Profiles.FRONT_LOAD_PERCENT);
@@ -375,7 +401,6 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			String mimeType = myMime.getMimeTypeFromExtension(Constants.PDF);
 			Uri uri = Uri.parse(Constants.TIRE_INFLATION_PDF);
 
-
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setDataAndType(uri, mimeType);
 			PackageManager packageManager = getPackageManager();
@@ -406,6 +431,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	void onAddProfile(View view) {
 		final String profileNameText =
 				(TextUtils.isEmpty(profileName.getText())) ? Constants.DEFAULT : profileName.getText().toString();
+
 		final String riderTypeText = (String) riderType.getSelectedItem();
 		final String frontTireWidth = (String) frontWidth.getSelectedItem();
 		final String rearTireWidth = (String) rearWidth.getSelectedItem();
@@ -426,6 +452,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	}
 
 	public void onCalculateTirePressure(View view) {
+		hideKeyboard(this);
 		final String bodyWeightText =
 				(TextUtils.isEmpty(bodyWeight.getText())) ? "0.0" : bodyWeight.getText().toString();
 		final String bikeWeightText =
@@ -465,5 +492,17 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		frontTireLabel.setText(fmt(Math.round(frontTireCalculator.psi())));
 		Calculator rearTireCalculator = new Calculator(rearLoadWeight, (String) rearWidth.getSelectedItem());
 		rearTireLabel.setText(fmt(Math.round(rearTireCalculator.psi())));
+	}
+
+	public static void hideKeyboard(Activity activity) {
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		//Find the currently focused view, so we can grab the correct window token from it.
+		View view = activity.getCurrentFocus();
+		//If no view currently has focus, create a new one, just so we can grab a window token from it
+		if (view == null) {
+			view = new View(activity);
+		}
+
+		imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 }
