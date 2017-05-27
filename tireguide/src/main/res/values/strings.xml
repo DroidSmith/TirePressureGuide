@@ -17,7 +17,6 @@
 	<string name="lbs">(lbs)</string>
 	<string name="loadPercentLabel"> at %s%%</string>
 	<string name="millimeters">(mm)</string>
-	<string name="percent">(%)</string>
 	<string name="psi">(psi)</string>
 	<string name="profiles"><![CDATA[Profile name & rider type]]></string>
 	<string name="profile_name">Profile/Rider name</string>
