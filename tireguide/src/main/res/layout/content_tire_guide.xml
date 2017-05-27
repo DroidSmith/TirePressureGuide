@@ -485,6 +485,7 @@
 			android:layout_below="@+id/frontTire"
 			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
+			android:layout_toEndOf="@+id/rearTire"
 			android:layout_toRightOf="@+id/rearTire"
 			android:text="@string/psi"
 			/>
