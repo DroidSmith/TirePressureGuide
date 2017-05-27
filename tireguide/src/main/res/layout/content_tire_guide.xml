@@ -27,19 +27,20 @@
 			android:textStyle="bold"
 			/>
 
-				  <EditText
-					  android:id="@+id/profileName"
-					  android:layout_width="wrap_content"
-					  android:layout_height="wrap_content"
-					  android:layout_below="@+id/profileText"
-					  android:layout_marginEnd="@dimen/small_spacing"
-					  android:layout_marginRight="@dimen/small_spacing"
-					  android:hint="@string/profile_name"
-					  android:imeOptions="actionNext"
-					  android:inputType="textCapWords"
-					  android:maxLength="32"
-					  android:nextFocusDown="@+id/weightText"
-					  android:nextFocusForward="@+id/weightText"/>
+		<EditText
+			android:id="@+id/profileName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/profileText"
+			android:layout_marginEnd="@dimen/small_spacing"
+			android:layout_marginRight="@dimen/small_spacing"
+			android:hint="@string/profile_name"
+			android:imeOptions="actionNext"
+			android:inputType="textCapWords"
+			android:maxLength="32"
+			android:nextFocusDown="@+id/weightText"
+			android:nextFocusForward="@+id/weightText"
+			/>
 
 		<Spinner
 			android:id="@+id/riderType"
