@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
+	<group android:checkableBehavior="single">
+		<item
 			android:id="@+id/nav_recents"
 			android:icon="@drawable/ic_history_black_24dp"
 			android:title="@string/recent" />
-        <item
+		<item
 			android:id="@+id/nav_add"
 			android:icon="@drawable/ic_add_circle_outline_black_24dp"
 			android:title="@string/add" />
-     </group>
+	</group>
 
 	<item android:title="@string/help_and_settings">
-        <menu>
-            <item
+		<menu>
+			<item
 				android:id="@+id/nav_manage"
 				android:icon="@drawable/ic_settings_black_24dp"
 				android:title="@string/settings" />
-            <item
+			<item
 				android:id="@+id/nav_help"
 				android:icon="@drawable/ic_help_outline_black_24dp"
 				android:title="@string/help" />
-        </menu>
-    </item>
+		</menu>
+	</item>
 
 </menu>

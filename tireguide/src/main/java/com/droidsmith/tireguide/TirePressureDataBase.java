@@ -104,8 +104,7 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 										   null,
 										   BaseColumns._ID + "=" + rowId,
 										   null,
-										   null,
-										   null, null, null);
+										   null, null, null, null);
 	}
 
 	interface Tables {
