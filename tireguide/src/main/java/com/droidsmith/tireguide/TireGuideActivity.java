@@ -468,22 +468,24 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		if (TextUtils.equals("%", frontLoadItem)) {
 			frontLoadPercent = Double.parseDouble(frontLoadText);
 			frontLoadWeight = totalWeight * frontLoadPercent / 100;
-			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), frontLoadText));
+			frontLoadPercentLabel.setText(String.format(" " + getString(R.string.loadPercentLabel), frontLoadText));
 		} else {
 			frontLoadPercent = Double.parseDouble(frontLoadText) * 100 / totalWeight;
 			frontLoadWeight = Double.parseDouble(frontLoadText);
-			frontLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(frontLoadPercent)));
+			frontLoadPercentLabel.setText(String.format(" " + getString(R.string.loadPercentLabel),
+														fmt(frontLoadPercent)));
 		}
 
 		final String rearLoadItem = (String) rearLoadUnits.getSelectedItem();
 		if (TextUtils.equals("%", rearLoadItem)) {
 			rearLoadPercent = Double.parseDouble(rearLoadText);
 			rearLoadWeight = totalWeight * rearLoadPercent / 100;
-			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), rearLoadText));
+			rearLoadPercentLabel.setText(String.format(" " + getString(R.string.loadPercentLabel), rearLoadText));
 		} else {
 			rearLoadPercent = Double.parseDouble(rearLoadText) * 100 / totalWeight;
 			rearLoadWeight = Double.parseDouble(rearLoadText);
-			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(rearLoadPercent)));
+			rearLoadPercentLabel.setText(String.format(" " + getString(R.string.loadPercentLabel),
+													   fmt(rearLoadPercent)));
 		}
 
 		frontLoadWeightLabel.setText(fmt(Math.round(frontLoadWeight)));
