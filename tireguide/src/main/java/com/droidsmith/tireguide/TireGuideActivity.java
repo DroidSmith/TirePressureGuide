@@ -486,8 +486,8 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			rearLoadPercentLabel.setText(String.format(getString(R.string.loadPercentLabel), fmt(rearLoadPercent)));
 		}
 
-		frontLoadWeightLabel.setText(fmt(frontLoadWeight));
-		rearLoadWeightLabel.setText(fmt(rearLoadWeight));
+		frontLoadWeightLabel.setText(fmt(Math.round(frontLoadWeight)));
+		rearLoadWeightLabel.setText(fmt(Math.round(rearLoadWeight)));
 		Calculator frontTireCalculator = new Calculator(frontLoadWeight, (String) frontWidth.getSelectedItem());
 		frontTireLabel.setText(fmt(Math.round(frontTireCalculator.psi())));
 		Calculator rearTireCalculator = new Calculator(rearLoadWeight, (String) rearWidth.getSelectedItem());
