@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
 	compileSdkVersion 26
-	buildToolsVersion "$rootProject.buildToolsVersion"
+	buildToolsVersion '26.0.1'
 
 	defaultConfig {
 		applicationId "com.droidsmith.tireguide"
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:26.0.1'
-	compile 'com.android.support:design:26.0.1'
-	testCompile "junit:junit:4.12"
+	compile "com.android.support:appcompat-v7:$rootProject.supportLibVersion"
+	compile "com.android.support:design:$rootProject.supportLibVersion"
+	testCompile "junit:junit:$rootProject.jUnitVersion"
 }
