@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
 	compileSdkVersion 26
-	buildToolsVersion '26.0.1'
+	buildToolsVersion "$rootProject.buildToolsVersion"
 
 	defaultConfig {
 		applicationId "com.droidsmith.tireguide"
 		vectorDrawables.useSupportLibrary = true
 		minSdkVersion 16
-		targetSdkVersion 'O'
+		targetSdkVersion 26
 		versionCode 1
 		versionName "1.0"
 	}
@@ -23,7 +23,7 @@ android {
 			debuggable true
 		}
 		release {
-			minifyEnabled false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
