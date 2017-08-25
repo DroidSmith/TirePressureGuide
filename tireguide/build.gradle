@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-	compileSdkVersion 25
+	compileSdkVersion 26
 	buildToolsVersion "$rootProject.buildToolsVersion"
 
 	defaultConfig {
 		applicationId "com.droidsmith.tireguide"
 		vectorDrawables.useSupportLibrary = true
 		minSdkVersion 16
-		targetSdkVersion 25
+		targetSdkVersion 26
 		versionCode 1
 		versionName "1.0"
 	}
@@ -23,15 +23,14 @@ android {
 			debuggable true
 		}
 		release {
-			minifyEnabled false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
-	compile "com.android.support:appcompat-v7:$rootProject.supportLibVersion"
-	compile "com.android.support:design:$rootProject.supportLibVersion"
-	testCompile "junit:junit:$rootProject.jUnitVersion"
+	compile 'com.android.support:appcompat-v7:26.0.1'
+	compile 'com.android.support:design:26.0.1'
+	testCompile "junit:junit:4.12"
 }
