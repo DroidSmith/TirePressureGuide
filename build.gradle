@@ -2,9 +2,9 @@
 buildscript {
 	ext {
 		// Libraries
-		supportLibVersion = '26.0.1'
-		kotlinVersion = '1.1.3-2'
-		gradleTools = '3.0.0-beta3'
+		supportLibVersion = '26.1.0'
+		kotlinVersion = '1.1.51'
+		gradleTools = '3.0.0'
 
 		// Testing
 		assertJVersion = '1.7.1'
