@@ -2,7 +2,6 @@ package com.droidsmith.tireguide;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -72,11 +71,11 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tire_guide);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		tirePressureDataBase = new TirePressureDataBase(this);
 
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
 																 drawer,
 																 toolbar,
@@ -87,28 +86,28 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			toggle.syncState();
 		}
 
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+		NavigationView navigationView = findViewById(R.id.nav_view);
 		if (navigationView != null) {
 			navigationView.setNavigationItemSelectedListener(this);
 		}
-		profileName = (EditText) findViewById(R.id.profileName);
-		bodyWeight = (EditText) findViewById(R.id.bodyWeight);
-		bikeWeight = (EditText) findViewById(R.id.bikeWeight);
-		frontLoad = (EditText) findViewById(R.id.frontLoad);
-		rearLoad = (EditText) findViewById(R.id.rearLoad);
-		riderType = (Spinner) findViewById(R.id.riderType);
-		frontWidth = (Spinner) findViewById(R.id.frontWidth);
-		rearWidth = (Spinner) findViewById(R.id.rearWidth);
-		frontLoadUnits = (Spinner) findViewById(R.id.frontLoadUnits);
-		rearLoadUnits = (Spinner) findViewById(R.id.rearLoadUnits);
-		totalWeightLabel = (TextView) findViewById(R.id.totalWeight);
-		frontLoadWeightLabel = (TextView) findViewById(R.id.frontLoadWeight);
-		rearLoadWeightLabel = (TextView) findViewById(R.id.rearLoadWeight);
-		frontLoadPercentLabel = (TextView) findViewById(R.id.frontLoadPercent);
-		rearLoadPercentLabel = (TextView) findViewById(R.id.rearLoadPercent);
-		frontTireLabel = (TextView) findViewById(R.id.frontTire);
-		rearTireLabel = (TextView) findViewById(R.id.rearTire);
-		FloatingActionButton addAction = (FloatingActionButton) findViewById(R.id.fab);
+		profileName = findViewById(R.id.profileName);
+		bodyWeight = findViewById(R.id.bodyWeight);
+		bikeWeight = findViewById(R.id.bikeWeight);
+		frontLoad = findViewById(R.id.frontLoad);
+		rearLoad = findViewById(R.id.rearLoad);
+		riderType = findViewById(R.id.riderType);
+		frontWidth = findViewById(R.id.frontWidth);
+		rearWidth = findViewById(R.id.rearWidth);
+		frontLoadUnits = findViewById(R.id.frontLoadUnits);
+		rearLoadUnits = findViewById(R.id.rearLoadUnits);
+		totalWeightLabel = findViewById(R.id.totalWeight);
+		frontLoadWeightLabel = findViewById(R.id.frontLoadWeight);
+		rearLoadWeightLabel = findViewById(R.id.rearLoadWeight);
+		frontLoadPercentLabel = findViewById(R.id.frontLoadPercent);
+		rearLoadPercentLabel = findViewById(R.id.rearLoadPercent);
+		frontTireLabel = findViewById(R.id.frontTire);
+		rearTireLabel = findViewById(R.id.rearTire);
+		FloatingActionButton addAction = findViewById(R.id.fab);
 		if (addAction != null) {
 			addAction.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -176,8 +175,11 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
 				boolean handled = false;
 				if (actionId == EditorInfo.IME_ACTION_GO) {
-					((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(),
-																												  InputMethodManager.HIDE_NOT_ALWAYS);
+					InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+					if (imm != null) {
+						imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					}
+
 					onCalculateTirePressure(view);
 					handled = true;
 				}
@@ -350,7 +352,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 
 	@Override
 	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
@@ -389,7 +391,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		if (id == R.id.nav_recents) {
 
 		} else if (id == R.id.nav_add) {
-			final ViewGroup group = (ViewGroup) this.findViewById(android.R.id.content);
+			final ViewGroup group = this.findViewById(android.R.id.content);
 			if (group != null) {
 				final ViewGroup viewGroup = (ViewGroup) group.getChildAt(0);
 				onAddProfile(viewGroup);
@@ -420,7 +422,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			}
 		}
 
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		if (drawer != null) {
 			drawer.closeDrawer(GravityCompat.START);
 		}
@@ -505,6 +507,8 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			view = new View(activity);
 		}
 
-		imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		if (imm != null) {
+			imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 }

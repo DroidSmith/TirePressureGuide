@@ -50,12 +50,12 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Updates the profile by the given row id.
+	 * Updates the profile by the given profile name.
 	 * @param profileName The profile name of the database record.
 	 * @param contentValues The new data values to update.
 	 * @return Whether the profile was updated or not.
 	 */
-	boolean updateProfile(String profileName, ContentValues contentValues) {
+	private boolean updateProfile(String profileName, ContentValues contentValues) {
 		return getWritableDatabase().update(Tables.PROFILES,
 											contentValues,
 											ProfileColumns.PROFILE_NAME + " = ?",
