@@ -4,14 +4,13 @@ buildscript {
 		// Libraries
 		supportLibVersion = '27.0.2'
 		kotlinVersion = '1.2.0'
-		gradleTools = '3.0.0'
 
 		// Testing
 		assertJVersion = '1.7.1'
 		expressoVersion = '2.2.2'
 		jUnitVersion = '4.12'
-		mokitoVersion = '1.9.5'
-		robolectricVersion = '3.0'
+		mokitoVersion = '1.10.19'
+		robolectricVersion = '3.5.1'
 		testingSupportLibVersion = '0.1'
 	}
 	repositories {

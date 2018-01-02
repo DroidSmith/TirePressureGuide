@@ -11,6 +11,7 @@ android {
 		targetSdkVersion 27
 		versionCode 1
 		versionName "1.0"
+		testInstrumentationRunner "android.suport.test.runner.AndroidJUnitRunner"
 	}
 
 	sourceSets {
@@ -35,14 +36,16 @@ android {
 }
 
 dependencies {
-	compile "com.android.support:appcompat-v7:$rootProject.supportLibVersion"
-	compile "com.android.support:design:$rootProject.supportLibVersion"
+	compile "com.android.support:appcompat-v7:$supportLibVersion"
+	compile "com.android.support:design:$supportLibVersion"
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+	testCompile "com.android.support:support-annotations:$supportLibVersion"
 	testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 	testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-	testCompile "junit:junit:$rootProject.jUnitVersion"
+	testCompile "junit:junit:$jUnitVersion"
+	testCompile "org.mockito:mockito-core:$mokitoVersion"
 }
 repositories {
 	mavenCentral()
