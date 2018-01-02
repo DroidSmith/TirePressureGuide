@@ -19,7 +19,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +37,19 @@ import com.droidsmith.tireguide.calcengine.Calculator;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+import static com.droidsmith.tireguide.Constants.CASUAL;
+import static com.droidsmith.tireguide.Constants.CASUAL_FRONT;
+import static com.droidsmith.tireguide.Constants.CASUAL_REAR;
+import static com.droidsmith.tireguide.Constants.DEFAULT;
+import static com.droidsmith.tireguide.Constants.PDF;
+import static com.droidsmith.tireguide.Constants.RACER;
+import static com.droidsmith.tireguide.Constants.RACER_FRONT;
+import static com.droidsmith.tireguide.Constants.RACER_REAR;
+import static com.droidsmith.tireguide.Constants.SPORT;
+import static com.droidsmith.tireguide.Constants.SPORT_FRONT;
+import static com.droidsmith.tireguide.Constants.SPORT_REAR;
+import static com.droidsmith.tireguide.Constants.TIRE_INFLATION_PDF;
 
 public class TireGuideActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	double totalWeight;
@@ -109,83 +121,65 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		rearTireLabel = findViewById(R.id.rearTire);
 		FloatingActionButton addAction = findViewById(R.id.fab);
 		if (addAction != null) {
-			addAction.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					hideKeyboard(TireGuideActivity.this);
-					onAddProfile(view);
-				}
+			addAction.setOnClickListener(view -> {
+				hideKeyboard(TireGuideActivity.this);
+				onAddProfile(view);
 			});
 		}
 
-		profileName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					bodyWeight.requestFocus();
-					handled = true;
-				}
-
-				return handled;
+		profileName.setOnEditorActionListener((view, actionId, event) -> {
+			boolean handled = false;
+			if (actionId == EditorInfo.IME_ACTION_NEXT) {
+				bodyWeight.requestFocus();
+				handled = true;
 			}
+
+			return handled;
 		});
 
-		bodyWeight.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					bikeWeight.requestFocus();
-					handled = true;
-				}
-
-				return handled;
+		bodyWeight.setOnEditorActionListener((view, actionId, event) -> {
+			boolean handled = false;
+			if (actionId == EditorInfo.IME_ACTION_NEXT) {
+				bikeWeight.requestFocus();
+				handled = true;
 			}
+
+			return handled;
 		});
 
-		bikeWeight.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					frontLoad.requestFocus();
-					handled = true;
-				}
-
-				return handled;
+		bikeWeight.setOnEditorActionListener((view, actionId, event) -> {
+			boolean handled = false;
+			if (actionId == EditorInfo.IME_ACTION_NEXT) {
+				frontLoad.requestFocus();
+				handled = true;
 			}
+
+			return handled;
 		});
 
-		frontLoad.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					rearLoad.requestFocus();
-					handled = true;
-				}
-
-				return handled;
+		frontLoad.setOnEditorActionListener((view, actionId, event) -> {
+			boolean handled = false;
+			if (actionId == EditorInfo.IME_ACTION_NEXT) {
+				rearLoad.requestFocus();
+				handled = true;
 			}
+
+			return handled;
 		});
 
-		rearLoad.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				boolean handled = false;
-				if (actionId == EditorInfo.IME_ACTION_GO) {
-					InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-					if (imm != null) {
-						imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-					}
-
-					onCalculateTirePressure(view);
-					handled = true;
+		rearLoad.setOnEditorActionListener((view, actionId, event) -> {
+			boolean handled = false;
+			if (actionId == EditorInfo.IME_ACTION_GO) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+				if (imm != null) {
+					imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				}
 
-				return handled;
+				onCalculateTirePressure(view);
+				handled = true;
 			}
+
+			return handled;
 		});
 
 		ArrayAdapter<CharSequence> riderTypeAdapter =
@@ -218,20 +212,20 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (!itemSelectedFromProfile) {
 					final String selectedItem = (String) parent.getSelectedItem();
-					if (TextUtils.equals(Constants.RACER, selectedItem)) {
-						frontLoad.setText(Constants.RACER_FRONT);
+					if (TextUtils.equals(RACER, selectedItem)) {
+						frontLoad.setText(RACER_FRONT);
 						frontLoadUnits.setSelection(0, Boolean.TRUE);
-						rearLoad.setText(Constants.RACER_REAR);
+						rearLoad.setText(RACER_REAR);
 						rearLoadUnits.setSelection(0, Boolean.TRUE);
-					} else if (TextUtils.equals(Constants.SPORT, selectedItem)) {
-						frontLoad.setText(Constants.SPORT_FRONT);
+					} else if (TextUtils.equals(SPORT, selectedItem)) {
+						frontLoad.setText(SPORT_FRONT);
 						frontLoadUnits.setSelection(0, Boolean.TRUE);
-						rearLoad.setText(Constants.SPORT_REAR);
+						rearLoad.setText(SPORT_REAR);
 						rearLoadUnits.setSelection(0, Boolean.TRUE);
 					} else {
-						frontLoad.setText(Constants.CASUAL_FRONT);
+						frontLoad.setText(CASUAL_FRONT);
 						frontLoadUnits.setSelection(0, Boolean.TRUE);
-						rearLoad.setText(Constants.CASUAL_REAR);
+						rearLoad.setText(CASUAL_REAR);
 						rearLoadUnits.setSelection(0, Boolean.TRUE);
 					}
 				}
@@ -268,6 +262,61 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 	}
 
+	void onAddProfile(View view) {
+		final String profileNameText =
+				(TextUtils.isEmpty(profileName.getText())) ? DEFAULT : profileName.getText().toString();
+
+		final String riderTypeText = (String) riderType.getSelectedItem();
+		final String frontTireWidth = (String) frontWidth.getSelectedItem();
+		final String rearTireWidth = (String) rearWidth.getSelectedItem();
+		onCalculateTirePressure(view);
+		final long profile = tirePressureDataBase.addProfile(profileNameText,
+															 riderTypeText,
+															 bodyWeightAmount,
+															 bikeWeightAmount,
+															 frontTireWidth,
+															 rearTireWidth,
+															 frontLoadPercent,
+															 rearLoadPercent);
+		if (profile == 0f) {
+			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
+		} else {
+			Snackbar.make(view, "Created a new record with id: " + profile, Snackbar.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
+		if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
+			drawer.closeDrawer(GravityCompat.START);
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.tire_guide, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.action_settings) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 	/**
 	 * Retrieves the profile from the database and displays the values.
 	 */
@@ -285,11 +334,11 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				bikeWeight.setText(fmt(bikeWeightAmount));
 
 				String riderTypeString = profile.getString(ProfileColumns.Profiles.RIDER_TYPE);
-				if (TextUtils.equals(Constants.RACER, riderTypeString)) {
+				if (TextUtils.equals(RACER, riderTypeString)) {
 					riderType.setSelection(0);
-				} else if (TextUtils.equals(Constants.SPORT, riderTypeString)) {
+				} else if (TextUtils.equals(SPORT, riderTypeString)) {
 					riderType.setSelection(1);
-				} else if (TextUtils.equals(Constants.CASUAL, riderTypeString)) {
+				} else if (TextUtils.equals(CASUAL, riderTypeString)) {
 					riderType.setSelection(2);
 				} else {
 					riderType.setSelection(2); // Default to Casual
@@ -350,38 +399,6 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		DrawerLayout drawer = findViewById(R.id.drawer_layout);
-		if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
-			drawer.closeDrawer(GravityCompat.START);
-		} else {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.tire_guide, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -400,8 +417,8 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 
 		} else if (id == R.id.nav_help) {
 			MimeTypeMap myMime = MimeTypeMap.getSingleton();
-			String mimeType = myMime.getMimeTypeFromExtension(Constants.PDF);
-			Uri uri = Uri.parse(Constants.TIRE_INFLATION_PDF);
+			String mimeType = myMime.getMimeTypeFromExtension(PDF);
+			Uri uri = Uri.parse(TIRE_INFLATION_PDF);
 
 			final Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setDataAndType(uri, mimeType);
@@ -412,8 +429,7 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 				startActivity(chooser);
 			} else {
 				//If no internal viewer is present, then allow Google Docs Viewer to view the PDF.
-				intent.setData(Uri.parse(
-						"http://docs.google.com/gview?embedded=true&url=" + Constants.TIRE_INFLATION_PDF));
+				intent.setData(Uri.parse("http://docs.google.com/gview?embedded=true&url=" + TIRE_INFLATION_PDF));
 				try {
 					startActivity(intent);
 				} catch (ActivityNotFoundException e) {
@@ -428,29 +444,6 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 
 		return true;
-	}
-
-	void onAddProfile(View view) {
-		final String profileNameText =
-				(TextUtils.isEmpty(profileName.getText())) ? Constants.DEFAULT : profileName.getText().toString();
-
-		final String riderTypeText = (String) riderType.getSelectedItem();
-		final String frontTireWidth = (String) frontWidth.getSelectedItem();
-		final String rearTireWidth = (String) rearWidth.getSelectedItem();
-		onCalculateTirePressure(view);
-		final long profile = tirePressureDataBase.addProfile(profileNameText,
-															 riderTypeText,
-															 bodyWeightAmount,
-															 bikeWeightAmount,
-															 frontTireWidth,
-															 rearTireWidth,
-															 frontLoadPercent,
-															 rearLoadPercent);
-		if (profile == 0f) {
-			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
-		} else {
-			Snackbar.make(view, "Created a new record with id: " + profile, Snackbar.LENGTH_SHORT).show();
-		}
 	}
 
 	public void onCalculateTirePressure(View view) {

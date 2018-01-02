@@ -7,11 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import static com.droidsmith.tireguide.Constants.DATABASE_NAME;
+
 /**
  * Defines a Database to store bike profiles.
  */
 class TirePressureDataBase extends SQLiteOpenHelper {
-	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	private static final int DATABASE_VERSION = 1;
 
 	TirePressureDataBase(Context context) {
