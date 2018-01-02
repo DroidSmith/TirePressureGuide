@@ -485,10 +485,10 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 
 		frontLoadWeightLabel.setText(fmt(Math.round(frontLoadWeight)));
 		rearLoadWeightLabel.setText(fmt(Math.round(rearLoadWeight)));
-		Calculator frontTireCalculator = new Calculator(frontLoadWeight, (String) frontWidth.getSelectedItem());
-		frontTireLabel.setText(fmt(Math.round(frontTireCalculator.psi())));
-		Calculator rearTireCalculator = new Calculator(rearLoadWeight, (String) rearWidth.getSelectedItem());
-		rearTireLabel.setText(fmt(Math.round(rearTireCalculator.psi())));
+		Calculator frontTireCalculator = new Calculator();
+		frontTireLabel.setText(fmt(frontTireCalculator.psi(frontLoadWeight, (String) frontWidth.getSelectedItem())));
+		Calculator rearTireCalculator = new Calculator();
+		rearTireLabel.setText(fmt(rearTireCalculator.psi(rearLoadWeight, (String) rearWidth.getSelectedItem())));
 	}
 
 	public static void hideKeyboard(Activity activity) {
