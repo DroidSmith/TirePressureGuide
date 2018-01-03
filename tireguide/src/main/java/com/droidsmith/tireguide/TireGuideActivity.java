@@ -88,11 +88,13 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		tirePressureDataBase = new TirePressureDataBase(this);
 
 		DrawerLayout drawer = findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-																 drawer,
-																 toolbar,
-																 R.string.navigation_drawer_open,
-																 R.string.navigation_drawer_close);
+		ActionBarDrawerToggle
+				toggle =
+				new ActionBarDrawerToggle(this,
+										  drawer,
+										  toolbar,
+										  R.string.navigation_drawer_open,
+										  R.string.navigation_drawer_close);
 		if (drawer != null) {
 			drawer.addDrawerListener(toggle);
 			toggle.syncState();
@@ -262,29 +264,6 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 	}
 
-	void onAddProfile(View view) {
-		final String profileNameText =
-				(TextUtils.isEmpty(profileName.getText())) ? DEFAULT : profileName.getText().toString();
-
-		final String riderTypeText = (String) riderType.getSelectedItem();
-		final String frontTireWidth = (String) frontWidth.getSelectedItem();
-		final String rearTireWidth = (String) rearWidth.getSelectedItem();
-		onCalculateTirePressure(view);
-		final long profile = tirePressureDataBase.addProfile(profileNameText,
-															 riderTypeText,
-															 bodyWeightAmount,
-															 bikeWeightAmount,
-															 frontTireWidth,
-															 rearTireWidth,
-															 frontLoadPercent,
-															 rearLoadPercent);
-		if (profile == 0f) {
-			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
-		} else {
-			Snackbar.make(view, "Created a new record with id: " + profile, Snackbar.LENGTH_SHORT).show();
-		}
-	}
-
 	@Override
 	public void onBackPressed() {
 		DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -444,6 +423,32 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		}
 
 		return true;
+	}
+
+	void onAddProfile(View view) {
+		final String
+				profileNameText =
+				(TextUtils.isEmpty(profileName.getText())) ? DEFAULT : profileName.getText().toString();
+
+		final String riderTypeText = (String) riderType.getSelectedItem();
+		final String frontTireWidth = (String) frontWidth.getSelectedItem();
+		final String rearTireWidth = (String) rearWidth.getSelectedItem();
+		onCalculateTirePressure(view);
+		final long
+				profile =
+				tirePressureDataBase.addProfile(profileNameText,
+												riderTypeText,
+												bodyWeightAmount,
+												bikeWeightAmount,
+												frontTireWidth,
+												rearTireWidth,
+												frontLoadPercent,
+												rearLoadPercent);
+		if (profile == 0f) {
+			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
+		} else {
+			Snackbar.make(view, "Created a new record with id: " + profile, Snackbar.LENGTH_SHORT).show();
+		}
 	}
 
 	public void onCalculateTirePressure(View view) {

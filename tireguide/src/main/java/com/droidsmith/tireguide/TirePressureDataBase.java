@@ -30,8 +30,14 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	 * @param frontLoadPercent Percent of rider weight on the front wheel.
 	 * @param rearLoadPercent Percent of the rider weight on the rear wheel.
 	 */
-	long addProfile(String profileName, String riderType, double bodyWeight, double bikeWeight, String frontTireWidth,
-					String rearTireWidth, double frontLoadPercent, double rearLoadPercent) {
+	long addProfile(String profileName,
+					String riderType,
+					double bodyWeight,
+					double bikeWeight,
+					String frontTireWidth,
+					String rearTireWidth,
+					double frontLoadPercent,
+					double rearLoadPercent) {
 		ContentValues values = new ContentValues(8);
 		values.put(ProfileColumns.PROFILE_NAME, profileName);
 		values.put(ProfileColumns.RIDER_TYPE, riderType);
@@ -104,7 +110,13 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	public Cursor getProfile(long rowId) {
 		return getWritableDatabase().query(true,
 										   Tables.PROFILES,
-										   null, BaseColumns._ID + "=" + rowId, null, null, null, null, null);
+										   null,
+										   BaseColumns._ID + "=" + rowId,
+										   null,
+										   null,
+										   null,
+										   null,
+										   null);
 	}
 
 	interface Tables {
@@ -113,13 +125,28 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(
-				"CREATE TABLE " + Tables.PROFILES + " (" + BaseColumns._ID + " INTEGER PRIMARY " + "KEY AUTOINCREMENT,"
-						+ ProfileColumns.PROFILE_NAME + " TEXT," + ProfileColumns.RIDER_TYPE + " TEXT,"
-						+ ProfileColumns.BODY_WEIGHT + " NUMBER," + ProfileColumns.BIKE_WEIGHT + " NUMBER,"
-						+ ProfileColumns.FRONT_TIRE_WIDTH + " NUMBER," + ProfileColumns.REAR_TIRE_WIDTH + " NUMBER,"
-						+ ProfileColumns.FRONT_LOAD_PERCENT + " NUMBER," + ProfileColumns.REAR_LOAD_PERCENT
-						+ " NUMBER)");
+		db.execSQL("CREATE TABLE "
+						   + Tables.PROFILES
+						   + " ("
+						   + BaseColumns._ID
+						   + " INTEGER PRIMARY "
+						   + "KEY AUTOINCREMENT,"
+						   + ProfileColumns.PROFILE_NAME
+						   + " TEXT,"
+						   + ProfileColumns.RIDER_TYPE
+						   + " TEXT,"
+						   + ProfileColumns.BODY_WEIGHT
+						   + " NUMBER,"
+						   + ProfileColumns.BIKE_WEIGHT
+						   + " NUMBER,"
+						   + ProfileColumns.FRONT_TIRE_WIDTH
+						   + " NUMBER,"
+						   + ProfileColumns.REAR_TIRE_WIDTH
+						   + " NUMBER,"
+						   + ProfileColumns.FRONT_LOAD_PERCENT
+						   + " NUMBER,"
+						   + ProfileColumns.REAR_LOAD_PERCENT
+						   + " NUMBER)");
 	}
 
 	@Override
