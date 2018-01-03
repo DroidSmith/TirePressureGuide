@@ -11,7 +11,7 @@ class Calculator {
 	 * Uses magical numbers to determine the optimal tire pressure.
 	 * @param loadWeight The weight in pounds exerted on the wheel.
 	 * @param tireWidth The width of the tire.
-	 * @return The magical tire pressure.
+	 * @return The magical tire pressure using formula y=mx+b.
      */
 	fun psi(loadWeight: Double, tireWidth: String): Double {
         var m = 0.0
@@ -43,11 +43,11 @@ class Calculator {
             m = 0.886363636
             b = -8.5
 		} else if (Objects.equals(tireWidth, "28")) {
-            m = .8022580702
-            b = -6.348534297
-        }
+			m = .8022580702
+			b = -6.348534297
+		}
 
-        psi = loadWeight * m + b
+		psi = loadWeight * m + b // Find the slope of y=mx+b
 		return Math.round(psi).toDouble()
     }
 }
