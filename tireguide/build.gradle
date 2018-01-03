@@ -11,12 +11,12 @@ android {
 		targetSdkVersion 27
 		versionCode 1
 		versionName "1.0"
-		testInstrumentationRunner "android.suport.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 
 	sourceSets {
 		main.java.srcDirs += 'src/main/kotlin'
-		main.java.srcDirs += 'src/main/Java'
+		test.java.srcDirs += 'src/test/kotlin'
 	}
 
 	buildTypes {
@@ -36,16 +36,15 @@ android {
 }
 
 dependencies {
-	compile "com.android.support:appcompat-v7:$supportLibVersion"
-	compile "com.android.support:design:$supportLibVersion"
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-	testCompile "com.android.support:support-annotations:$supportLibVersion"
-	testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
-	testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-	testCompile "junit:junit:$jUnitVersion"
-	testCompile "org.mockito:mockito-core:$mokitoVersion"
+	implementation "com.android.support:appcompat-v7:$supportLibVersion"
+	implementation "com.android.support:design:$supportLibVersion"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+	testImplementation "com.android.support:support-annotations:$supportLibVersion"
+	testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+	testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+	testImplementation "io.kotlintest:kotlintest:$kotlinTestVersion"
+	testImplementation "junit:junit:$jUnitVersion"
 }
 repositories {
 	mavenCentral()
