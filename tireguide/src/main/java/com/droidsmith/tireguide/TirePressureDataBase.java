@@ -69,7 +69,9 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	 * @return Whether the profile is deleted or not.
 	 */
 	public boolean deleteProfile(long rowId) {
-		return getWritableDatabase().delete(Tables.PROFILES, BaseColumns._ID + "=" + rowId, null) > 0;
+		return getWritableDatabase().delete(Tables.PROFILES,
+											BaseColumns._ID + " = ?",
+											new String[] {String.valueOf(rowId)}) > 0;
 	}
 
 	/**
@@ -102,10 +104,7 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	public Cursor getProfile(long rowId) {
 		return getWritableDatabase().query(true,
 										   Tables.PROFILES,
-										   null,
-										   BaseColumns._ID + "=" + rowId,
-										   null,
-										   null, null, null, null);
+										   null, BaseColumns._ID + "=" + rowId, null, null, null, null, null);
 	}
 
 	interface Tables {
