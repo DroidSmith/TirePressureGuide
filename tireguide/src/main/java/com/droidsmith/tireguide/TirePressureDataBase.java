@@ -110,9 +110,7 @@ class TirePressureDataBase extends SQLiteOpenHelper {
 	public Cursor getProfile(long rowId) {
 		return getWritableDatabase().query(true,
 										   Tables.PROFILES,
-										   null,
-										   BaseColumns._ID + "=" + rowId,
-										   null,
+										   null, BaseColumns._ID + " = ?", new String[] {String.valueOf(rowId)},
 										   null,
 										   null,
 										   null,
