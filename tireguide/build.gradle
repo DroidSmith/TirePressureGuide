@@ -1,5 +1,16 @@
+buildscript {
+	ext.kotlin_version = '1.2.10'
+
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 	compileSdkVersion 27
@@ -14,14 +25,10 @@ android {
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 
-	sourceSets {
-		main.java.srcDirs += 'src/main/kotlin'
-		test.java.srcDirs += 'src/test/kotlin'
-	}
-
 	buildTypes {
 		debug {
 			debuggable true
+			minifyEnabled false
 		}
 		release {
 			minifyEnabled true
@@ -33,9 +40,14 @@ android {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
+	sourceSets {
+		main.java.srcDirs += 'src/main/kotlin'
+		test.java.srcDirs += 'src/test/kotlin'
+	}
 }
 
 dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation "com.android.support:appcompat-v7:$supportLibVersion"
 	implementation "com.android.support:design:$supportLibVersion"
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
@@ -45,7 +57,4 @@ dependencies {
 	testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 	testImplementation "io.kotlintest:kotlintest:$kotlinTestVersion"
 	testImplementation "junit:junit:$jUnitVersion"
-}
-repositories {
-	mavenCentral()
 }
