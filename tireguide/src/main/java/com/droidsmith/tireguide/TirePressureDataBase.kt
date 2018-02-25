@@ -10,31 +10,36 @@ import android.provider.BaseColumns
 /**
  * Defines a Database to store bike profiles.
  */
-internal class TirePressureDataBase(context: Context)
-	: SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+internal class TirePressureDataBase(context: Context) : SQLiteOpenHelper(
+	context,
+	DATABASE_NAME,
+	null,
+	DATABASE_VERSION
+) {
 
 	/**
 	 * Fetch a profile record cursor containing all profiles from the database.
 	 * @return A profile record cursor containing all profiles from the database.
 	 */
 	val profiles: Cursor
-		get() = writableDatabase.query(Tables.profiles,
-				arrayOf(
-						BaseColumns._ID,
-						ProfileColumns.PROFILE_NAME,
-						ProfileColumns.RIDER_TYPE,
-						ProfileColumns.BODY_WEIGHT,
-						ProfileColumns.BIKE_WEIGHT,
-						ProfileColumns.FRONT_TIRE_WIDTH,
-						ProfileColumns.REAR_TIRE_WIDTH,
-						ProfileColumns.FRONT_LOAD_PERCENT,
-						ProfileColumns.REAR_LOAD_PERCENT
-				),
-				null,
-				null,
-				null,
-				null,
-				null
+		get() = writableDatabase.query(
+			Tables.profiles,
+			arrayOf(
+				BaseColumns._ID,
+				ProfileColumns.PROFILE_NAME,
+				ProfileColumns.RIDER_TYPE,
+				ProfileColumns.BODY_WEIGHT,
+				ProfileColumns.BIKE_WEIGHT,
+				ProfileColumns.FRONT_TIRE_WIDTH,
+				ProfileColumns.REAR_TIRE_WIDTH,
+				ProfileColumns.FRONT_LOAD_PERCENT,
+				ProfileColumns.REAR_LOAD_PERCENT
+			),
+			null,
+			null,
+			null,
+			null,
+			null
 		)
 
 	/**
@@ -48,14 +53,15 @@ internal class TirePressureDataBase(context: Context)
 	 * @param frontLoadPercent Percent of rider weight on the front wheel.
 	 * @param rearLoadPercent Percent of the rider weight on the rear wheel.
 	 */
-	fun addProfile(profileName: String,
-				   riderType: String,
-				   bodyWeight: Double,
-				   bikeWeight: Double,
-				   frontTireWidth: String,
-				   rearTireWidth: String,
-				   frontLoadPercent: Double,
-				   rearLoadPercent: Double
+	fun addProfile(
+		profileName: String,
+		riderType: String,
+		bodyWeight: Double,
+		bikeWeight: Double,
+		frontTireWidth: String,
+		rearTireWidth: String,
+		frontLoadPercent: Double,
+		rearLoadPercent: Double
 	): Long {
 		val values = ContentValues(8)
 		values.put(ProfileColumns.PROFILE_NAME, profileName)
@@ -80,10 +86,10 @@ internal class TirePressureDataBase(context: Context)
 	 */
 	private fun updateProfile(profileName: String, contentValues: ContentValues): Boolean {
 		return writableDatabase.update(
-				Tables.profiles,
-				contentValues,
-				ProfileColumns.PROFILE_NAME + " = ?",
-				arrayOf(profileName)
+			Tables.profiles,
+			contentValues,
+			ProfileColumns.PROFILE_NAME + " = ?",
+			arrayOf(profileName)
 		) > 0
 	}
 
@@ -94,9 +100,9 @@ internal class TirePressureDataBase(context: Context)
 	 */
 	fun deleteProfile(rowId: Long): Boolean {
 		return writableDatabase.delete(
-				Tables.profiles,
-				BaseColumns._ID + " = ?",
-				arrayOf(rowId.toString())
+			Tables.profiles,
+			BaseColumns._ID + " = ?",
+			arrayOf(rowId.toString())
 		) > 0
 	}
 
@@ -107,15 +113,15 @@ internal class TirePressureDataBase(context: Context)
 	 */
 	fun getProfile(rowId: Long): Cursor {
 		return writableDatabase.query(
-				true,
-				Tables.profiles,
-				null,
-				BaseColumns._ID + " = ?",
-				arrayOf(rowId.toString()),
-				null,
-				null,
-				null,
-				null
+			true,
+			Tables.profiles,
+			null,
+			BaseColumns._ID + " = ?",
+			arrayOf(rowId.toString()),
+			null,
+			null,
+			null,
+			null
 		)
 	}
 

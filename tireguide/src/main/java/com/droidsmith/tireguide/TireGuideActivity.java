@@ -79,6 +79,20 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	private double bikeWeightAmount;
 	private boolean itemSelectedFromProfile;
 
+	public static void hideKeyboard(Activity activity) {
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		//Find the currently focused view, so we can grab the correct window token from it.
+		View view = activity.getCurrentFocus();
+		//If no view currently has focus, create a new one, just so we can grab a window token from it
+		if (view == null) {
+			view = new View(activity);
+		}
+
+		if (imm != null) {
+			imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,13 +102,11 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		tirePressureDataBase = new TirePressureDataBase(this);
 
 		DrawerLayout drawer = findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle
-				toggle =
-				new ActionBarDrawerToggle(this,
-										  drawer,
-										  toolbar,
-										  R.string.navigation_drawer_open,
-										  R.string.navigation_drawer_close);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+																 drawer,
+																 toolbar,
+																 R.string.navigation_drawer_open,
+																 R.string.navigation_drawer_close);
 		if (drawer != null) {
 			drawer.addDrawerListener(toggle);
 			toggle.syncState();
@@ -301,80 +313,78 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	 */
 	void getProfile() {
 		final Cursor profile = tirePressureDataBase.getProfiles();
-		if (profile != null) {
-			profile.moveToFirst();
-			while (!profile.isAfterLast()) {
-				itemSelectedFromProfile = true;
-				profileName.setText(profile.getString(ProfileColumns.Profiles.PROFILE_NAME));
-				bodyWeightAmount = profile.getDouble(ProfileColumns.Profiles.BODY_WEIGHT);
-				bodyWeight.setText(fmt(bodyWeightAmount));
+		profile.moveToFirst();
+		while (!profile.isAfterLast()) {
+			itemSelectedFromProfile = true;
+			profileName.setText(profile.getString(Profiles.PROFILE_NAME));
+			bodyWeightAmount = profile.getDouble(Profiles.BODY_WEIGHT);
+			bodyWeight.setText(fmt(bodyWeightAmount));
 
-				bikeWeightAmount = profile.getDouble(ProfileColumns.Profiles.BIKE_WEIGHT);
-				bikeWeight.setText(fmt(bikeWeightAmount));
+			bikeWeightAmount = profile.getDouble(Profiles.BIKE_WEIGHT);
+			bikeWeight.setText(fmt(bikeWeightAmount));
 
-				String riderTypeString = profile.getString(ProfileColumns.Profiles.RIDER_TYPE);
-				if (TextUtils.equals(RACER, riderTypeString)) {
-					riderType.setSelection(0);
-				} else if (TextUtils.equals(SPORT, riderTypeString)) {
-					riderType.setSelection(1);
-				} else if (TextUtils.equals(CASUAL, riderTypeString)) {
-					riderType.setSelection(2);
-				} else {
-					riderType.setSelection(2); // Default to Casual
-				}
-
-				String frontTireWidthString = profile.getString(ProfileColumns.Profiles.FRONT_TIRE_WIDTH);
-				// There has to be a better way than checking every value
-				if (TextUtils.equals("20", frontTireWidthString)) {
-					frontWidth.setSelection(0);
-				} else if (TextUtils.equals("21", frontTireWidthString)) {
-					frontWidth.setSelection(1);
-				} else if (TextUtils.equals("22", frontTireWidthString)) {
-					frontWidth.setSelection(2);
-				} else if (TextUtils.equals("23", frontTireWidthString)) {
-					frontWidth.setSelection(3);
-				} else if (TextUtils.equals("24", frontTireWidthString)) {
-					frontWidth.setSelection(4);
-				} else if (TextUtils.equals("25", frontTireWidthString)) {
-					frontWidth.setSelection(5);
-				} else if (TextUtils.equals("26", frontTireWidthString)) {
-					frontWidth.setSelection(6);
-				} else if (TextUtils.equals("27", frontTireWidthString)) {
-					frontWidth.setSelection(7);
-				} else if (TextUtils.equals("28", frontTireWidthString)) {
-					frontWidth.setSelection(8);
-				} else {
-					frontWidth.setSelection(5); //Default to 25mm
-				}
-
-				String rearTireWidthString = profile.getString(ProfileColumns.Profiles.REAR_TIRE_WIDTH);
-				if (TextUtils.equals("20", rearTireWidthString)) {
-					rearWidth.setSelection(0);
-				} else if (TextUtils.equals("21", frontTireWidthString)) {
-					rearWidth.setSelection(1);
-				} else if (TextUtils.equals("22", frontTireWidthString)) {
-					rearWidth.setSelection(2);
-				} else if (TextUtils.equals("23", frontTireWidthString)) {
-					rearWidth.setSelection(3);
-				} else if (TextUtils.equals("24", frontTireWidthString)) {
-					rearWidth.setSelection(4);
-				} else if (TextUtils.equals("25", frontTireWidthString)) {
-					rearWidth.setSelection(5);
-				} else if (TextUtils.equals("26", frontTireWidthString)) {
-					rearWidth.setSelection(6);
-				} else if (TextUtils.equals("27", frontTireWidthString)) {
-					rearWidth.setSelection(7);
-				} else {
-					rearWidth.setSelection(8);
-				}
-
-				frontLoadPercent = profile.getDouble(ProfileColumns.Profiles.FRONT_LOAD_PERCENT);
-				frontLoad.setText(fmt(frontLoadPercent));
-
-				rearLoadPercent = profile.getDouble(ProfileColumns.Profiles.REAR_LOAD_PERCENT);
-				rearLoad.setText(fmt(rearLoadPercent));
-				profile.moveToNext();
+			String riderTypeString = profile.getString(Profiles.RIDER_TYPE);
+			if (TextUtils.equals(RACER, riderTypeString)) {
+				riderType.setSelection(0);
+			} else if (TextUtils.equals(SPORT, riderTypeString)) {
+				riderType.setSelection(1);
+			} else if (TextUtils.equals(CASUAL, riderTypeString)) {
+				riderType.setSelection(2);
+			} else {
+				riderType.setSelection(2); // Default to Casual
 			}
+
+			String frontTireWidthString = profile.getString(Profiles.FRONT_TIRE_WIDTH);
+			// There has to be a better way than checking every value
+			if (TextUtils.equals("20", frontTireWidthString)) {
+				frontWidth.setSelection(0);
+			} else if (TextUtils.equals("21", frontTireWidthString)) {
+				frontWidth.setSelection(1);
+			} else if (TextUtils.equals("22", frontTireWidthString)) {
+				frontWidth.setSelection(2);
+			} else if (TextUtils.equals("23", frontTireWidthString)) {
+				frontWidth.setSelection(3);
+			} else if (TextUtils.equals("24", frontTireWidthString)) {
+				frontWidth.setSelection(4);
+			} else if (TextUtils.equals("25", frontTireWidthString)) {
+				frontWidth.setSelection(5);
+			} else if (TextUtils.equals("26", frontTireWidthString)) {
+				frontWidth.setSelection(6);
+			} else if (TextUtils.equals("27", frontTireWidthString)) {
+				frontWidth.setSelection(7);
+			} else if (TextUtils.equals("28", frontTireWidthString)) {
+				frontWidth.setSelection(8);
+			} else {
+				frontWidth.setSelection(5); //Default to 25mm
+			}
+
+			String rearTireWidthString = profile.getString(Profiles.REAR_TIRE_WIDTH);
+			if (TextUtils.equals("20", rearTireWidthString)) {
+				rearWidth.setSelection(0);
+			} else if (TextUtils.equals("21", frontTireWidthString)) {
+				rearWidth.setSelection(1);
+			} else if (TextUtils.equals("22", frontTireWidthString)) {
+				rearWidth.setSelection(2);
+			} else if (TextUtils.equals("23", frontTireWidthString)) {
+				rearWidth.setSelection(3);
+			} else if (TextUtils.equals("24", frontTireWidthString)) {
+				rearWidth.setSelection(4);
+			} else if (TextUtils.equals("25", frontTireWidthString)) {
+				rearWidth.setSelection(5);
+			} else if (TextUtils.equals("26", frontTireWidthString)) {
+				rearWidth.setSelection(6);
+			} else if (TextUtils.equals("27", frontTireWidthString)) {
+				rearWidth.setSelection(7);
+			} else {
+				rearWidth.setSelection(8);
+			}
+
+			frontLoadPercent = profile.getDouble(Profiles.FRONT_LOAD_PERCENT);
+			frontLoad.setText(fmt(frontLoadPercent));
+
+			rearLoadPercent = profile.getDouble(Profiles.REAR_LOAD_PERCENT);
+			rearLoad.setText(fmt(rearLoadPercent));
+			profile.moveToNext();
 		}
 	}
 
@@ -426,24 +436,21 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 	}
 
 	void onAddProfile(View view) {
-		final String
-				profileNameText =
+		final String profileNameText =
 				(TextUtils.isEmpty(profileName.getText())) ? DEFAULT : profileName.getText().toString();
 
 		final String riderTypeText = (String) riderType.getSelectedItem();
 		final String frontTireWidth = (String) frontWidth.getSelectedItem();
 		final String rearTireWidth = (String) rearWidth.getSelectedItem();
 		onCalculateTirePressure(view);
-		final long
-				profile =
-				tirePressureDataBase.addProfile(profileNameText,
-												riderTypeText,
-												bodyWeightAmount,
-												bikeWeightAmount,
-												frontTireWidth,
-												rearTireWidth,
-												frontLoadPercent,
-												rearLoadPercent);
+		final long profile = tirePressureDataBase.addProfile(profileNameText,
+															 riderTypeText,
+															 bodyWeightAmount,
+															 bikeWeightAmount,
+															 frontTireWidth,
+															 rearTireWidth,
+															 frontLoadPercent,
+															 rearLoadPercent);
 		if (profile == 0f) {
 			Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show();
 		} else {
@@ -494,19 +501,5 @@ public class TireGuideActivity extends AppCompatActivity implements NavigationVi
 		frontTireLabel.setText(fmt(frontTireCalculator.psi(frontLoadWeight, (String) frontWidth.getSelectedItem())));
 		Calculator rearTireCalculator = new Calculator();
 		rearTireLabel.setText(fmt(rearTireCalculator.psi(rearLoadWeight, (String) rearWidth.getSelectedItem())));
-	}
-
-	public static void hideKeyboard(Activity activity) {
-		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-		//Find the currently focused view, so we can grab the correct window token from it.
-		View view = activity.getCurrentFocus();
-		//If no view currently has focus, create a new one, just so we can grab a window token from it
-		if (view == null) {
-			view = new View(activity);
-		}
-
-		if (imm != null) {
-			imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
 	}
 }
