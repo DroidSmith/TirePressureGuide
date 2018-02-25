@@ -1,6 +1,6 @@
 package com.droidsmith.tireguide.calcengine
 
-import java.util.*
+import java.util.Objects
 
 /**
  * Calculates the proper tire pressure for a bicycle tire based on weight and width of tire.
