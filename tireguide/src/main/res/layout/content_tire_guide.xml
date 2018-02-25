@@ -33,7 +33,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/profileText"
 			android:layout_marginEnd="@dimen/small_spacing"
-			android:layout_marginRight="@dimen/small_spacing"
 			android:hint="@string/profile_name"
 			android:imeOptions="actionNext"
 			android:inputType="textCapWords"
@@ -50,7 +49,6 @@
 			android:layout_below="@+id/profileText"
 			android:layout_marginTop="5dp"
 			android:layout_toEndOf="@+id/profileName"
-			android:layout_toRightOf="@+id/profileName"
 			android:focusable="true"
 			android:nextFocusDown="@+id/weightText"
 			android:nextFocusForward="@+id/weightText"
@@ -71,10 +69,8 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/weightText"
-			android:layout_marginLeft="5dp"
 			android:layout_marginStart="5dp"
 			android:layout_toEndOf="@+id/weightText"
-			android:layout_toRightOf="@+id/weightText"
 			android:text="@string/lbs"
 			android:textColor="@android:color/primary_text_light"
 			android:textStyle="bold"
@@ -98,7 +94,6 @@
 			android:id="@+id/bikeWeight"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/rearLoad"
 			android:layout_alignStart="@+id/rearLoad"
 			android:layout_below="@+id/weightText"
 			android:hint="@string/bike_weight"
@@ -126,7 +121,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/tireWidths"
 			android:layout_marginEnd="5dp"
-			android:layout_marginRight="5dp"
 			android:text="@string/front"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -137,7 +131,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/tireWidths"
 			android:layout_toEndOf="@+id/frontWidthLabel"
-			android:layout_toRightOf="@+id/frontWidthLabel"
 			android:focusable="true"
 			android:hint="@string/tire_width"
 			android:nextFocusDown="@+id/rearWidth"
@@ -152,9 +145,7 @@
 			android:layout_alignBaseline="@+id/frontWidthLabel"
 			android:layout_below="@+id/tireWidths"
 			android:layout_marginEnd="10dp"
-			android:layout_marginRight="10dp"
 			android:layout_toEndOf="@+id/frontWidth"
-			android:layout_toRightOf="@+id/frontWidth"
 			android:text="@string/millimeters"
 			/>
 
@@ -165,9 +156,7 @@
 			android:layout_alignBaseline="@+id/frontWidthLabel"
 			android:layout_below="@+id/tireWidths"
 			android:layout_marginEnd="5dp"
-			android:layout_marginRight="5dp"
 			android:layout_toEndOf="@+id/frontWidthUnits"
-			android:layout_toRightOf="@+id/frontWidthUnits"
 			android:text="@string/rear"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -180,7 +169,6 @@
 			android:layout_centerHorizontal="true"
 			android:layout_centerVertical="true"
 			android:layout_toEndOf="@+id/rearWidthLabel"
-			android:layout_toRightOf="@+id/rearWidthLabel"
 			android:focusable="true"
 			android:hint="@string/rear"
 			android:nextFocusDown="@+id/frontLoad"
@@ -195,9 +183,7 @@
 			android:layout_alignBaseline="@+id/frontWidthLabel"
 			android:layout_below="@+id/tireWidths"
 			android:layout_marginEnd="5dp"
-			android:layout_marginRight="5dp"
 			android:layout_toEndOf="@+id/rearWidth"
-			android:layout_toRightOf="@+id/rearWidth"
 			android:text="@string/millimeters"
 			/>
 
@@ -234,7 +220,6 @@
 			android:layout_below="@+id/loadText"
 			android:layout_centerHorizontal="true"
 			android:layout_toEndOf="@+id/frontLoad"
-			android:layout_toRightOf="@+id/frontLoad"
 			android:focusable="true"
 			android:nextFocusDown="@+id/rearLoad"
 			android:nextFocusForward="@+id/rearLoad"
@@ -245,11 +230,9 @@
 			android:id="@+id/rearLoad"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/rearWidthLabel"
 			android:layout_alignStart="@+id/rearWidthLabel"
 			android:layout_below="@+id/loadText"
 			android:layout_toEndOf="@+id/frontLoadUnits"
-			android:layout_toRightOf="@+id/frontLoadUnits"
 			android:hint="@string/rear"
 			android:imeOptions="actionGo"
 			android:inputType="numberDecimal"
@@ -267,7 +250,6 @@
 			android:layout_below="@+id/loadText"
 			android:layout_centerHorizontal="true"
 			android:layout_toEndOf="@+id/rearLoad"
-			android:layout_toRightOf="@+id/rearLoad"
 			android:focusable="true"
 			android:nextFocusDown="@+id/calculateTirePressure"
 			android:nextFocusForward="@+id/calculateTirePressure"
@@ -296,7 +278,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/calculateTirePressure"
 			android:layout_marginEnd="@dimen/medium_spacing"
-			android:layout_marginRight="@dimen/medium_spacing"
 			android:text="@string/total_weight"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -308,7 +289,6 @@
 			android:layout_alignBaseline="@+id/totalWeightLabel"
 			android:layout_below="@+id/calculateTirePressure"
 			android:layout_toEndOf="@+id/totalWeightLabel"
-			android:layout_toRightOf="@+id/totalWeightLabel"
 			android:text="@string/zero"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -319,10 +299,8 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/totalWeight"
 			android:layout_below="@+id/calculateTirePressure"
-			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/totalWeight"
-			android:layout_toRightOf="@+id/totalWeight"
 			android:text="@string/lbs"
 			/>
 
@@ -332,7 +310,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/totalWeightLabel"
 			android:layout_marginEnd="@dimen/small_spacing"
-			android:layout_marginRight="@dimen/small_spacing"
 			android:text="@string/front_load"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -343,7 +320,6 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontLoadWeightLabel"
 			android:layout_alignEnd="@+id/totalWeight"
-			android:layout_alignRight="@+id/totalWeight"
 			android:layout_below="@+id/totalWeight"
 			android:text="@string/zero"
 			android:textAppearance="?android:textAppearanceMedium"
@@ -355,10 +331,8 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontLoadWeight"
 			android:layout_below="@+id/totalWeight"
-			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/frontLoadWeight"
-			android:layout_toRightOf="@+id/frontLoadWeight"
 			android:text="@string/lbs"
 			/>
 
@@ -369,7 +343,6 @@
 			android:layout_alignBaseline="@+id/frontLoadWeight"
 			android:layout_below="@+id/totalWeight"
 			android:layout_toEndOf="@+id/frontLoadWeightUnits"
-			android:layout_toRightOf="@+id/frontLoadWeightUnits"
 			/>
 
 		<TextView
@@ -378,7 +351,6 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/frontLoadWeightLabel"
 			android:layout_marginEnd="@dimen/small_spacing"
-			android:layout_marginRight="@dimen/small_spacing"
 			android:text="@string/rear_load"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -389,7 +361,6 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/rearLoadWeightLabel"
 			android:layout_alignEnd="@+id/frontLoadWeight"
-			android:layout_alignRight="@+id/frontLoadWeight"
 			android:layout_below="@+id/frontLoadWeight"
 			android:gravity="end"
 			android:text="@string/zero"
@@ -403,10 +374,8 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/rearLoadWeight"
 			android:layout_below="@+id/frontLoadWeight"
-			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/rearLoadWeight"
-			android:layout_toRightOf="@+id/rearLoadWeight"
 			android:text="@string/lbs"
 			/>
 
@@ -417,7 +386,6 @@
 			android:layout_alignBaseline="@+id/rearLoadWeight"
 			android:layout_below="@+id/frontLoadWeight"
 			android:layout_toEndOf="@+id/rearLoadWeightUnits"
-			android:layout_toRightOf="@+id/rearLoadWeightUnits"
 			/>
 
 		<TextView
@@ -435,7 +403,6 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontTireLabel"
 			android:layout_alignEnd="@+id/rearLoadWeight"
-			android:layout_alignRight="@+id/rearLoadWeight"
 			android:layout_below="@+id/rearLoadWeight"
 			android:text="@string/zero"
 			android:textAppearance="?android:textAppearanceMedium"
@@ -447,10 +414,8 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontTire"
 			android:layout_below="@+id/rearLoadWeight"
-			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/frontTire"
-			android:layout_toRightOf="@+id/frontTire"
 			android:text="@string/psi"
 			/>
 
@@ -469,7 +434,6 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/rearTireLabel"
 			android:layout_alignEnd="@+id/frontTire"
-			android:layout_alignRight="@+id/frontTire"
 			android:layout_below="@+id/frontTire"
 			android:gravity="end"
 			android:text="@string/zero"
@@ -483,10 +447,8 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/rearTire"
 			android:layout_below="@+id/frontTire"
-			android:layout_marginLeft="@dimen/small_spacing"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/rearTire"
-			android:layout_toRightOf="@+id/rearTire"
 			android:text="@string/psi"
 			/>
 	</RelativeLayout>
