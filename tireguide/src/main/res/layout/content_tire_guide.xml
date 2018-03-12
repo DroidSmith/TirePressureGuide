@@ -283,7 +283,7 @@
 			/>
 
 		<TextView
-			android:id="@+id/totalWeight"
+			android:id="@+id/totalWeightAmount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/totalWeightLabel"
@@ -297,10 +297,10 @@
 			android:id="@+id/totalWeightUnits"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBaseline="@+id/totalWeight"
+			android:layout_toEndOf="@+id/totalWeightAmount"
 			android:layout_below="@+id/calculateTirePressure"
 			android:layout_marginStart="@dimen/small_spacing"
-			android:layout_toEndOf="@+id/totalWeight"
+			android:layout_alignBaseline="@+id/totalWeightAmount"
 			android:text="@string/lbs"
 			/>
 
@@ -315,12 +315,12 @@
 			/>
 
 		<TextView
-			android:id="@+id/frontLoadWeight"
+			android:id="@+id/frontLoadWeightAmount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontLoadWeightLabel"
-			android:layout_alignEnd="@+id/totalWeight"
-			android:layout_below="@+id/totalWeight"
+			android:layout_below="@+id/totalWeightAmount"
+			android:layout_alignEnd="@+id/totalWeightAmount"
 			android:text="@string/zero"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -329,19 +329,19 @@
 			android:id="@+id/frontLoadWeightUnits"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBaseline="@+id/frontLoadWeight"
-			android:layout_below="@+id/totalWeight"
+			android:layout_toEndOf="@+id/frontLoadWeightAmount"
+			android:layout_below="@+id/totalWeightAmount"
 			android:layout_marginStart="@dimen/small_spacing"
-			android:layout_toEndOf="@+id/frontLoadWeight"
+			android:layout_alignBaseline="@+id/frontLoadWeightAmount"
 			android:text="@string/lbs"
 			/>
 
 		<TextView
-			android:id="@+id/frontLoadPercent"
+			android:id="@+id/frontLoadPercentAmount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBaseline="@+id/frontLoadWeight"
-			android:layout_below="@+id/totalWeight"
+			android:layout_below="@+id/totalWeightAmount"
+			android:layout_alignBaseline="@+id/frontLoadWeightAmount"
 			android:layout_toEndOf="@+id/frontLoadWeightUnits"
 			/>
 
@@ -356,12 +356,12 @@
 			/>
 
 		<TextView
-			android:id="@+id/rearLoadWeight"
+			android:id="@+id/rearLoadWeightAmount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/rearLoadWeightLabel"
-			android:layout_alignEnd="@+id/frontLoadWeight"
-			android:layout_below="@+id/frontLoadWeight"
+			android:layout_below="@+id/frontLoadWeightAmount"
+			android:layout_alignEnd="@+id/frontLoadWeightAmount"
 			android:gravity="end"
 			android:text="@string/zero"
 			android:textAlignment="gravity"
@@ -372,19 +372,19 @@
 			android:id="@+id/rearLoadWeightUnits"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBaseline="@+id/rearLoadWeight"
-			android:layout_below="@+id/frontLoadWeight"
+			android:layout_toEndOf="@+id/rearLoadWeightAmount"
+			android:layout_below="@+id/frontLoadWeightAmount"
 			android:layout_marginStart="@dimen/small_spacing"
-			android:layout_toEndOf="@+id/rearLoadWeight"
+			android:layout_alignBaseline="@+id/rearLoadWeightAmount"
 			android:text="@string/lbs"
 			/>
 
 		<TextView
-			android:id="@+id/rearLoadPercent"
+			android:id="@+id/rearLoadPercentAmount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignBaseline="@+id/rearLoadWeight"
-			android:layout_below="@+id/frontLoadWeight"
+			android:layout_below="@+id/frontLoadWeightAmount"
+			android:layout_alignBaseline="@+id/rearLoadWeightAmount"
 			android:layout_toEndOf="@+id/rearLoadWeightUnits"
 			/>
 
@@ -402,8 +402,8 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontTireLabel"
-			android:layout_alignEnd="@+id/rearLoadWeight"
-			android:layout_below="@+id/rearLoadWeight"
+			android:layout_below="@+id/rearLoadWeightAmount"
+			android:layout_alignEnd="@+id/rearLoadWeightAmount"
 			android:text="@string/zero"
 			android:textAppearance="?android:textAppearanceMedium"
 			/>
@@ -413,7 +413,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/frontTire"
-			android:layout_below="@+id/rearLoadWeight"
+			android:layout_below="@+id/rearLoadWeightAmount"
 			android:layout_marginStart="@dimen/small_spacing"
 			android:layout_toEndOf="@+id/frontTire"
 			android:text="@string/psi"

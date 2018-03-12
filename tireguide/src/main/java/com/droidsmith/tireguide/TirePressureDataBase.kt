@@ -127,7 +127,7 @@ internal class TirePressureDataBase(context: Context) : SQLiteOpenHelper(
 
 	internal interface Tables {
 		companion object {
-			val profiles = "profiles"
+			const val profiles = "profiles"
 		}
 	}
 
@@ -152,6 +152,6 @@ internal class TirePressureDataBase(context: Context) : SQLiteOpenHelper(
 	}
 
 	companion object {
-		private val DATABASE_VERSION = 1
+		private const val DATABASE_VERSION = 1
 	}
 }

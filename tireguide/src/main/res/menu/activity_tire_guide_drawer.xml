@@ -3,11 +3,11 @@
 
 	<group android:checkableBehavior="single">
 		<item
-			android:id="@+id/nav_recents"
+			android:id="@+id/navigationRecents"
 			android:icon="@drawable/ic_history_black_24dp"
 			android:title="@string/recent" />
 		<item
-			android:id="@+id/nav_add"
+			android:id="@+id/navigationAdd"
 			android:icon="@drawable/ic_add_circle_outline_black_24dp"
 			android:title="@string/add" />
 	</group>
@@ -15,11 +15,11 @@
 	<item android:title="@string/help_and_settings">
 		<menu>
 			<item
-				android:id="@+id/nav_manage"
+				android:id="@+id/navigationManage"
 				android:icon="@drawable/ic_settings_black_24dp"
 				android:title="@string/settings" />
 			<item
-				android:id="@+id/nav_help"
+				android:id="@+id/navigationHelp"
 				android:icon="@drawable/ic_help_outline_black_24dp"
 				android:title="@string/help" />
 		</menu>
