@@ -29,15 +29,15 @@ import kotlinx.android.synthetic.main.content_tire_guide.*
 import java.text.DecimalFormat
 
 class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-	internal var totalWeight: Double = 0.toDouble()
-	internal var frontLoadWeight: Double = 0.toDouble()
-	internal var frontLoadPercent: Double = 0.toDouble()
-	internal var rearLoadWeight: Double = 0.toDouble()
-	internal var rearLoadPercent: Double = 0.toDouble()
-	internal var bodyWeightAmount: Double = 0.toDouble()
-	internal var bikeWeightAmount: Double = 0.toDouble()
-	internal var itemSelectedFromProfile: Boolean = false
-	internal lateinit var tirePressureDataBase: TirePressureDataBase
+	private var totalWeight: Double = 0.toDouble()
+	private var frontLoadWeight: Double = 0.toDouble()
+	private var frontLoadPercent: Double = 0.toDouble()
+	private var rearLoadWeight: Double = 0.toDouble()
+	private var rearLoadPercent: Double = 0.toDouble()
+	private var bodyWeightAmount: Double = 0.toDouble()
+	private var bikeWeightAmount: Double = 0.toDouble()
+	private var itemSelectedFromProfile: Boolean = false
+	private lateinit var tirePressureDataBase: TirePressureDataBase
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -111,7 +111,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 				val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 				imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 
-				onCalculateTirePressure(view)
+				onCalculateTirePressure()
 				handled = true
 			}
 
@@ -192,6 +192,10 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 			}
 
 			override fun onNothingSelected(parent: AdapterView<*>) {}
+		}
+
+		calculateTirePressure.setOnClickListener {
+			onCalculateTirePressure()
 		}
 
 		getProfile()
@@ -351,7 +355,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 		val riderTypeText = riderType.selectedItem.toString()
 		val frontTireWidth = frontWidth.selectedItem.toString()
 		val rearTireWidth = rearWidth.selectedItem.toString()
-		onCalculateTirePressure(view)
+		onCalculateTirePressure()
 		val profile = tirePressureDataBase.addProfile(
 			profileNameText,
 			riderTypeText,
@@ -373,7 +377,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 		}
 	}
 
-	fun onCalculateTirePressure(view: View) {
+	fun onCalculateTirePressure() {
 		hideKeyboard(this)
 		bodyWeightAmount = if (bodyWeight.text.isEmpty()) 0.0 else bodyWeight.text.toString().toDouble()
 		bikeWeightAmount = if (bikeWeight.text.isEmpty()) 0.0 else bikeWeight.text.toString().toDouble()

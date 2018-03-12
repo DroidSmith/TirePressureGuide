@@ -267,7 +267,6 @@
 			android:nextFocusDown="@+id/bodyWeight"
 			android:nextFocusForward="@+id/bodyWeight"
 			android:nextFocusUp="@+id/rearLoadUnits"
-			android:onClick="onCalculateTirePressure"
 			android:text="@string/calculate"
 			android:textColor="@android:color/primary_text_dark"
 			/>
