@@ -2,41 +2,44 @@
 buildscript {
 	ext {
 		// Libraries
-		supportLibVersion = '26.1.0'
-		kotlinVersion = '1.1.51'
-		gradleTools = '3.0.0'
+		supportLibVersion = '27.1.0'
+		kotlinVersion = '1.2.30'
+		kotlinTestVersion = '2.0.7'
 
 		// Testing
 		assertJVersion = '1.7.1'
 		expressoVersion = '2.2.2'
 		jUnitVersion = '4.12'
-		mokitoVersion = '1.9.5'
-		robolectricVersion = '3.0'
+		robolectricVersion = '3.5.1'
 		testingSupportLibVersion = '0.1'
 	}
 	repositories {
 		jcenter()
-		google()
-	}
-	dependencies {
-		classpath "com.android.tools.build:gradle:$gradleTools"
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-	}
-}
-apply plugin: 'kotlin'
-
-allprojects {
-	repositories {
 		maven {
 			url 'https://maven.google.com'
 			// Alternative URL is 'https://dl.google.com/dl/android/maven2/'
+
 		}
-		jcenter()
+		google()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.2.0-alpha08'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	}
 }
-repositories {
-	mavenCentral()
+
+allprojects {
+	repositories {
+		jcenter()
+		maven {
+			url 'https://maven.google.com'
+			// Alternative URL is 'https://dl.google.com/dl/android/maven2/'
+
+		}
+		mavenCentral()
+	}
 }
-dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
 }

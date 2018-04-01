@@ -1,36 +1,73 @@
+buildscript {
+	ext.kotlin_version = '1.2.30'
+
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-	compileSdkVersion 26
-	buildToolsVersion '26.0.2'
+	compileSdkVersion 27
 
 	defaultConfig {
 		applicationId "com.droidsmith.tireguide"
 		vectorDrawables.useSupportLibrary = true
-		minSdkVersion 16
-		targetSdkVersion 26
+		minSdkVersion 19
+		targetSdkVersion 27
 		versionCode 1
 		versionName "1.0"
-	}
-
-	sourceSets {
-		main.java.srcDirs += 'src/main/kotlin'
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 
 	buildTypes {
 		debug {
 			debuggable true
+			minifyEnabled false
 		}
 		release {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			proguardFile '/Users/steve/AndroidStudioProjects/TirePressureGuide/tireguide/proguard-rules.pro'
 		}
+	}
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+	task copyTestClasses(type: Copy) {
+		from "build/tmp/kotlin-classes/debugUnitTest"
+		into "build/intermediates/classes/test/debug"
+	}
+
+	task copySdkClasses(type: Copy) {
+		from "build/tmp/kotlin-classes/debug"
+		into "build/intermediates/classes/debug"
+	}
+
+	afterEvaluate {
+		compileDebugUnitTestSources.dependsOn copyTestClasses
+		compileReleaseUnitTestSources.dependsOn copyTestClasses
+
+		compileDebugAndroidTestSources.dependsOn copySdkClasses
 	}
 }
 
 dependencies {
-	compile "com.android.support:appcompat-v7:$rootProject.supportLibVersion"
-	compile "com.android.support:design:$rootProject.supportLibVersion"
-	testCompile "junit:junit:$rootProject.jUnitVersion"
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation "com.android.support:appcompat-v7:$supportLibVersion"
+	implementation "com.android.support:design:$supportLibVersion"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+	testImplementation "com.android.support:support-annotations:$supportLibVersion"
+	testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+	testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+	testImplementation "io.kotlintest:kotlintest:$kotlinTestVersion"
+	testImplementation "junit:junit:$jUnitVersion"
 }
