@@ -1,8 +1,8 @@
 package com.droidsmith.tireguide
 
-import android.support.design.widget.NavigationView
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
 
 /**
  * View profiles and select for editing
