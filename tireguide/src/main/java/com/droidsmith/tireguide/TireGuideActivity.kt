@@ -5,13 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,7 +15,13 @@ import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.droidsmith.tireguide.calcengine.Calculator
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_tire_guide.*
 import kotlinx.android.synthetic.main.app_bar_tire_guide.*
 import kotlinx.android.synthetic.main.content_tire_guide.*
@@ -42,7 +41,6 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_tire_guide)
-		val toolbar = findViewById<Toolbar>(R.id.toolbar)
 		setSupportActionBar(toolbar)
 		tirePressureDataBase = TirePressureDataBase(this)
 
@@ -304,43 +302,47 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
 	override fun onNavigationItemSelected(item: MenuItem): Boolean {
 		// Handle navigation view item clicks here.
-		val id = item.itemId
 
-		if (id == R.id.navigationRecents) {
-			//Todo pull the latest profile, I think
-		} else if (id == R.id.navigationAdd) {
-			val group = this.findViewById<ViewGroup>(android.R.id.content)
-			if (group != null) {
-				val viewGroup = group.getChildAt(0) as ViewGroup
-				onAddProfile(viewGroup)
+		when (item.itemId) {
+			R.id.navigationRecents -> {
+				//Todo pull the latest profile, I think
 			}
-		} else if (id == R.id.navigationManage) {
-			// TODO I'm going to remember what this is some day
-		} else if (id == R.id.navigationHelp) {
-			val myMime = MimeTypeMap.getSingleton()
-			val mimeType = myMime.getMimeTypeFromExtension(PDF)
-			val uri = Uri.parse(TIRE_INFLATION_PDF)
-
-			val intent = Intent(Intent.ACTION_VIEW)
-			intent.setDataAndType(uri, mimeType)
-			val packageManager = packageManager
-			val activities = packageManager.queryIntentActivities(intent, 0)
-			if (!activities.isEmpty()) {
-				val chooser = Intent.createChooser(intent, "Choose a PDF Viewer")
-				startActivity(chooser)
-			} else {
-				// If no internal viewer is present, then allow Google Docs Viewer to view the PDF.
-				intent.data = Uri.parse(GOOGLE_DOC_URL + TIRE_INFLATION_PDF)
-				try {
-					startActivity(intent)
-				} catch (e: ActivityNotFoundException) {
-					Toast.makeText(
-						this,
-						"No Application Available to View PDF files",
-						Toast.LENGTH_SHORT
-					).show()
+			R.id.navigationAdd -> {
+				val group = this.findViewById<ViewGroup>(android.R.id.content)
+				if (group != null) {
+					val viewGroup = group.getChildAt(0) as ViewGroup
+					onAddProfile(viewGroup)
 				}
+			}
+			R.id.navigationManage -> {
+				// TODO I'm going to remember what this is some day
+			}
+			R.id.navigationHelp -> {
+				val myMime = MimeTypeMap.getSingleton()
+				val mimeType = myMime.getMimeTypeFromExtension(PDF)
+				val uri = Uri.parse(TIRE_INFLATION_PDF)
 
+				val intent = Intent(Intent.ACTION_VIEW)
+				intent.setDataAndType(uri, mimeType)
+				val packageManager = packageManager
+				val activities = packageManager.queryIntentActivities(intent, 0)
+				if (activities.isNotEmpty()) {
+					val chooser = Intent.createChooser(intent, "Choose a PDF Viewer")
+					startActivity(chooser)
+				} else {
+					// If no internal viewer is present, then allow Google Docs Viewer to view the PDF.
+					intent.data = Uri.parse(GOOGLE_DOC_URL + TIRE_INFLATION_PDF)
+					try {
+						startActivity(intent)
+					} catch (e: ActivityNotFoundException) {
+						Toast.makeText(
+							this,
+							"No Application Available to View PDF files",
+							Toast.LENGTH_SHORT
+						).show()
+					}
+
+				}
 			}
 		}
 
@@ -351,7 +353,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 	}
 
 	private fun onAddProfile(view: View) {
-		val profileNameText = if (profileName.text.isEmpty()) DEFAULT else profileName.text.toString()
+		val profileNameText = if (profileName.text.isNullOrEmpty()) DEFAULT else profileName.text.toString()
 		val riderTypeText = riderType.selectedItem.toString()
 		val frontTireWidth = frontWidth.selectedItem.toString()
 		val rearTireWidth = rearWidth.selectedItem.toString()
@@ -371,18 +373,18 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 		} else {
 			Snackbar.make(
 				view,
-				"Created a new record with id: " + profile,
+				"Created a new record with id: $profile",
 				Snackbar.LENGTH_SHORT
 			).show()
 		}
 	}
 
-	fun onCalculateTirePressure() {
+	private fun onCalculateTirePressure() {
 		hideKeyboard(this)
-		bodyWeightAmount = if (bodyWeight.text.isEmpty()) 0.0 else bodyWeight.text.toString().toDouble()
-		bikeWeightAmount = if (bikeWeight.text.isEmpty()) 0.0 else bikeWeight.text.toString().toDouble()
-		val frontLoadText = if (frontLoad.text.isEmpty()) "0.0" else frontLoad.text.toString()
-		val rearLoadText = if (rearLoad.text.isEmpty()) "0.0" else rearLoad.text.toString()
+		bodyWeightAmount = if (bodyWeight.text.isNullOrEmpty()) 0.0 else bodyWeight.text.toString().toDouble()
+		bikeWeightAmount = if (bikeWeight.text.isNullOrEmpty()) 0.0 else bikeWeight.text.toString().toDouble()
+		val frontLoadText = if (frontLoad.text.isNullOrEmpty()) "0.0" else frontLoad.text.toString()
+		val rearLoadText = if (rearLoad.text.isNullOrEmpty()) "0.0" else rearLoad.text.toString()
 
 		totalWeight = bodyWeightAmount + bikeWeightAmount
 		totalWeightAmount.text = fmt(totalWeight)

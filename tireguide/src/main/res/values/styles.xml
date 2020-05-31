@@ -20,4 +20,22 @@
 		<item name="android:windowBackground">@drawable/background_splash</item>
 	</style>
 
+	<style name="TextInputEditTextStandard">
+		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
+		<item name="android:minHeight">@dimen/touch_target</item>
+	</style>
+
+	<style name="TextInputLayoutStandard" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
+	</style>
+
+	<style name="TextInputLayoutDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
+	</style>
+
+	<style name="TextInputLayoutError" parent="@android:style/TextAppearance">
+		<item name="android:textColor">@color/red</item>
+		<item name="android:textSize">12sp</item>
+	</style>
+
 </resources>
