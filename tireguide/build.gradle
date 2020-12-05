@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-	compileSdkVersion 29
+	compileSdkVersion 30
 
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8
@@ -14,10 +14,11 @@ android {
 	defaultConfig {
 		applicationId "com.droidsmith.tireguide"
 		minSdkVersion 24
-		targetSdkVersion 29
+		targetSdkVersion 30
 		versionCode 1
 		versionName "1.0"
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		multiDexEnabled true
 	}
 
 	buildTypes {
@@ -26,11 +27,18 @@ android {
 			minifyEnabled false
 		}
 		release {
+			debuggable false
 			minifyEnabled true
+			shrinkResources true
+			zipAlignEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-			proguardFile '/Users/steve/AndroidStudioProjects/TirePressureGuide/tireguide/proguard-rules.pro'
 		}
 	}
+
+	buildFeatures {
+		viewBinding = true
+	}
+
 	task copyTestClasses(type: Copy) {
 		from "build/tmp/kotlin-classes/debugUnitTest"
 		into "build/intermediates/classes/test/debug"
@@ -54,15 +62,14 @@ androidExtensions {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
-	implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
-	implementation 'com.google.android.material:material:1.2.0-beta01'
-	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72'
-	implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.72'
-	testImplementation 'androidx.annotation:annotation:1.1.0'
-	testImplementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.72'
+	implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+	implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+	implementation 'com.google.android.material:material:1.2.1'
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect:1.4.20'
+	testImplementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.20'
 	testImplementation 'org.jetbrains.kotlin:kotlin-test:1.3.72'
 	testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.3.72'
 	testImplementation 'io.kotlintest:kotlintest:2.0.7'
-	testImplementation 'junit:junit:4.13'
+	testImplementation 'junit:junit:4.13.1'
 }
