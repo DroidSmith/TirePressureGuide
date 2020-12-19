@@ -17,7 +17,6 @@ import com.droidsmith.tireguide.extensions.openExternalUrl
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormat
-import kotlin.math.roundToLong
 
 class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,7 +61,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         binding.appBarTireGuide.contentTireGuide.profileText.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.requestFocus()
                 handled = true
             }
 
@@ -82,11 +81,35 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                binding.appBarTireGuide.contentTireGuide.frontLoadEdit.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.requestFocus()
                 handled = true
             }
 
             handled
+        }
+
+        binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (!itemSelectedFromProfile) {
+                    binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.requestFocus()
+                }
+
+                itemSelectedFromProfile = false
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (!itemSelectedFromProfile) {
+                    binding.appBarTireGuide.contentTireGuide.frontLoadEdit.requestFocus()
+                }
+
+                itemSelectedFromProfile = false
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setOnEditorActionListener { _, actionId, _ ->
@@ -174,6 +197,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                             binding.appBarTireGuide.contentTireGuide.rearLoadUnits.setSelection(0, true)
                         }
                     }
+                    binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.requestFocus()
                 }
 
                 itemSelectedFromProfile = false
@@ -282,10 +306,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
 
             frontLoadPercent = profile.getDouble(Profiles.FRONT_LOAD_PERCENT)
-            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = fmt(frontLoadPercent)
-
             rearLoadPercent = profile.getDouble(Profiles.REAR_LOAD_PERCENT)
-            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = fmt(rearLoadPercent)
             profile.moveToNext()
         }
     }
@@ -373,43 +394,24 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         totalWeight = bodyWeightAmount + bikeWeightAmount
-        binding.appBarTireGuide.contentTireGuide.totalWeightAmount.text = fmt(totalWeight)
         val frontLoadItem = binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.selectedItem.toString()
         if ("%" == frontLoadItem) {
             frontLoadPercent = frontLoadText.toDouble()
             frontLoadWeight = totalWeight * frontLoadPercent / 100
-            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = String.format(
-                    " " + getString(R.string.loadPercentLabel),
-                    frontLoadText
-            )
         } else {
             frontLoadPercent = frontLoadText.toDouble() * 100 / totalWeight
             frontLoadWeight = frontLoadText.toDouble()
-            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = String.format(
-                    " " + getString(R.string.loadPercentLabel),
-                    fmt(frontLoadPercent)
-            )
         }
 
         val rearLoadItem = binding.appBarTireGuide.contentTireGuide.rearLoadUnits.selectedItem.toString()
         if ("%" == rearLoadItem) {
             rearLoadPercent = rearLoadText.toDouble()
             rearLoadWeight = totalWeight * rearLoadPercent / 100
-            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = String.format(
-                    " " + getString(R.string.loadPercentLabel),
-                    rearLoadText
-            )
         } else {
             rearLoadPercent = rearLoadText.toDouble() * 100 / totalWeight
             rearLoadWeight = rearLoadText.toDouble()
-            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = String.format(
-                    " " + getString(R.string.loadPercentLabel),
-                    fmt(rearLoadPercent)
-            )
         }
 
-        binding.appBarTireGuide.contentTireGuide.frontLoadAmount.text = fmt(frontLoadWeight.roundToLong().toDouble())
-        binding.appBarTireGuide.contentTireGuide.rearLoadAmount.text = fmt(rearLoadWeight.roundToLong().toDouble())
         val frontTireCalculator = Calculator()
         binding.appBarTireGuide.contentTireGuide.frontTirePressure.text = fmt(
                 frontTireCalculator.psi(

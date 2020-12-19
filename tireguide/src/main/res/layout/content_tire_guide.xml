@@ -30,32 +30,43 @@
 
         <EditText
             android:id="@+id/profileEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="@string/profile_name"
             android:hint="@string/profile_name"
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:maxLength="32"
-            android:nextFocusDown="@+id/weightText"
-            android:nextFocusForward="@+id/weightText"
-            app:layout_constraintEnd_toStartOf="@+id/riderTypeSpinner"
+            android:minHeight="@dimen/touch_target"
+            android:nextFocusDown="@+id/riderTypeSpinner"
+            android:nextFocusForward="@+id/riderTypeSpinner"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/profileText"
             app:layout_constraintTop_toBottomOf="@+id/profileText" />
+
+        <TextView
+            android:id="@+id/riderTypeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="@string/rider_type"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileEdit" />
 
         <Spinner
             android:id="@+id/riderTypeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_8"
             android:focusable="true"
-            android:nextFocusDown="@+id/weightText"
-            android:nextFocusForward="@+id/weightText"
-            app:layout_constraintBottom_toBottomOf="@+id/profileEdit"
-            app:layout_constraintStart_toEndOf="@+id/profileEdit"
-            app:layout_constraintTop_toBottomOf="@+id/profileText"
-            app:layout_constraintTop_toTopOf="@+id/profileEdit" />
+            android:minHeight="@dimen/touch_target"
+            android:nextFocusUp="@+id/profileEdit"
+            android:nextFocusDown="@+id/bodyWeightEdit"
+            android:nextFocusForward="@+id/bodyWeightEdit"
+            app:layout_constraintStart_toStartOf="@+id/profileText"
+            app:layout_constraintTop_toBottomOf="@+id/riderTypeText" />
 
         <TextView
             android:id="@+id/weightText"
@@ -66,13 +77,13 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/weightUnitsText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/riderTypeSpinner" />
 
         <TextView
             android:id="@+id/weightUnitsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/spacing_4"
             android:text="@string/lbs"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/weightText"
@@ -129,7 +140,6 @@
             android:id="@+id/frontWidthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_4"
             android:text="@string/front"
             android:textAppearance="?android:textAppearanceMedium"
             app:layout_constraintBottom_toBottomOf="@+id/frontWidthSpinner"
@@ -141,11 +151,11 @@
             android:id="@+id/frontWidthSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
+            android:layout_marginStart="@dimen/spacing_8"
             android:focusable="true"
             android:hint="@string/tire_width"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/gearWeight"
+            android:nextFocusUp="@+id/bikeWeightEdit"
             android:nextFocusDown="@+id/rearWidthSpinner"
             android:nextFocusForward="@+id/rearWidthSpinner"
             app:layout_constraintStart_toEndOf="@+id/frontWidthText"
@@ -155,7 +165,6 @@
             android:id="@+id/frontWidthUnitsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:text="@string/millimeters"
             app:layout_constraintBaseline_toBaselineOf="@+id/frontWidthText"
             app:layout_constraintStart_toEndOf="@+id/frontWidthSpinner" />
@@ -164,8 +173,7 @@
             android:id="@+id/rearWidthText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_8"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="@dimen/spacing_16"
             android:text="@string/rear"
             android:textAppearance="?android:textAppearanceMedium"
             app:layout_constraintBaseline_toBaselineOf="@+id/frontWidthText"
@@ -176,7 +184,7 @@
             android:id="@+id/rearWidthSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/spacing_8"
             android:focusable="true"
             android:hint="@string/rear"
             android:minHeight="@dimen/touch_target"
@@ -273,8 +281,6 @@
             android:layout_marginTop="@dimen/spacing_16"
             android:background="@color/colorAccent"
             android:nextFocusUp="@+id/rearLoadUnits"
-            android:nextFocusDown="@+id/bodyWeightEdit"
-            android:nextFocusForward="@+id/bodyWeightEdit"
             android:text="@string/calculate"
             android:textColor="@android:color/primary_text_dark"
             app:layout_constraintEnd_toEndOf="parent"
@@ -283,129 +289,24 @@
             app:layout_constraintTop_toBottomOf="@+id/frontLoadEdit" />
 
         <TextView
-            android:id="@+id/totalWeightText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_16"
-            android:text="@string/total_weight"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
-
-        <TextView
-            android:id="@+id/totalWeightAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_16"
-            android:text="@string/zero"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintBaseline_toBaselineOf="@+id/totalWeightText"
-            app:layout_constraintStart_toEndOf="@+id/totalWeightText"
-            app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
-
-        <TextView
-            android:id="@+id/totalWeightUnits"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
-            android:text="@string/lbs"
-            app:layout_constraintBaseline_toBaselineOf="@+id/totalWeightAmount"
-            app:layout_constraintStart_toEndOf="@+id/totalWeightAmount"
-            app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
-
-        <TextView
-            android:id="@+id/frontLoadText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/front_load"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalWeightText" />
-
-        <TextView
-            android:id="@+id/frontLoadAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zero"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintBaseline_toBaselineOf="@+id/frontLoadText"
-            app:layout_constraintEnd_toEndOf="@+id/totalWeightAmount"
-            app:layout_constraintTop_toBottomOf="@+id/totalWeightAmount" />
-
-        <TextView
-            android:id="@+id/frontLoadUnitsText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
-            android:text="@string/lbs"
-            app:layout_constraintBaseline_toBaselineOf="@+id/frontLoadAmount"
-            app:layout_constraintStart_toEndOf="@+id/frontLoadAmount" />
-
-        <TextView
-            android:id="@+id/frontLoadPercentAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/frontLoadAmount"
-            app:layout_constraintStart_toEndOf="@+id/frontLoadUnitsText"
-            tools:text=" at 42.0%" />
-
-        <TextView
-            android:id="@+id/rearLoadText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/rear_load"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frontLoadText" />
-
-        <TextView
-            android:id="@+id/rearLoadAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="@string/zero"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintBaseline_toBaselineOf="@+id/rearLoadText"
-            app:layout_constraintStart_toStartOf="@+id/totalWeightAmount" />
-
-        <TextView
-            android:id="@+id/rearLoadWeightUnits"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
-            android:text="@string/lbs"
-            app:layout_constraintBaseline_toBaselineOf="@+id/rearLoadAmount"
-            app:layout_constraintStart_toEndOf="@+id/rearLoadAmount" />
-
-        <TextView
-            android:id="@+id/rearLoadPercentAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/rearLoadAmount"
-            app:layout_constraintStart_toEndOf="@+id/rearLoadWeightUnits"
-            tools:text=" at 60.0%" />
-
-        <TextView
             android:id="@+id/RecommendedTirePressureText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:background="@color/colorAccent"
             android:text="@string/recommended_tire_pressure"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/primary_text_dark"
+            android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rearLoadText" />
+            app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
 
         <TextView
             android:id="@+id/frontTireText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_4"
             android:text="@string/front_tire"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textStyle="bold"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/RecommendedTirePressureText" />
 
@@ -414,16 +315,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textAppearance="?android:textAppearanceMedium"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintBaseline_toBaselineOf="@+id/frontTireText"
-            app:layout_constraintStart_toStartOf="@+id/totalWeightAmount" />
+            app:layout_constraintEnd_toStartOf="@+id/frontTireUnitsText"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/rearWidthText" />
 
         <TextView
-            android:id="@+id/frontTireUnits"
+            android:id="@+id/frontTireUnitsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_4"
             android:text="@string/psi"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintBaseline_toBaselineOf="@+id/frontTirePressure"
             app:layout_constraintStart_toEndOf="@+id/frontTirePressure" />
 
@@ -432,8 +336,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/rear_tire"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textStyle="bold"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frontTireText" />
 
@@ -441,20 +344,22 @@
             android:id="@+id/rearTirePressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:text="@string/zero"
-            android:textAppearance="?android:textAppearanceMedium"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintBaseline_toBaselineOf="@+id/rearTireText"
-            app:layout_constraintStart_toStartOf="@+id/totalWeightAmount" />
+            app:layout_constraintEnd_toEndOf="@+id/frontTirePressure"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/frontTirePressure" />
 
         <TextView
-            android:id="@+id/rearTireUnits"
+            android:id="@+id/rearTireUnitsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
             android:text="@string/psi"
+            android:textAppearance="?android:textAppearanceLarge"
             app:layout_constraintBaseline_toBaselineOf="@+id/rearTirePressure"
-            app:layout_constraintStart_toEndOf="@+id/rearTirePressure" />
+            app:layout_constraintStart_toStartOf="@+id/frontTireUnitsText" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
