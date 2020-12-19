@@ -1,41 +1,42 @@
 <resources>
 
-	<!-- Base application theme. --><style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-	<!-- Customize your theme here. -->
-	<item name="colorPrimary">@color/colorPrimary</item>
-	<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-	<item name="colorAccent">@color/colorAccent</item>
-</style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-	<style name="AppTheme.NoActionBar">
-		<item name="windowActionBar">false</item>
-		<item name="windowNoTitle">true</item>
-	</style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
-	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
-	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 
-	<style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-		<item name="android:windowBackground">@drawable/background_splash</item>
-	</style>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
 
-	<style name="TextInputEditTextStandard">
-		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
-		<item name="android:minHeight">@dimen/touch_target</item>
-	</style>
+    <style name="TextInputEditTextStandard">
+        <item name="errorTextAppearance">@style/TextInputLayoutError</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+    </style>
 
-	<style name="TextInputLayoutStandard" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
-	</style>
+    <style name="TextInputLayoutStandard" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="errorTextAppearance">@style/TextInputLayoutError</item>
+    </style>
 
-	<style name="TextInputLayoutDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-		<item name="errorTextAppearance">@style/TextInputLayoutError</item>
-	</style>
+    <style name="TextInputLayoutDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="errorTextAppearance">@style/TextInputLayoutError</item>
+    </style>
 
-	<style name="TextInputLayoutError" parent="@android:style/TextAppearance">
-		<item name="android:textColor">@color/red</item>
-		<item name="android:textSize">12sp</item>
-	</style>
+    <style name="TextInputLayoutError" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
 </resources>

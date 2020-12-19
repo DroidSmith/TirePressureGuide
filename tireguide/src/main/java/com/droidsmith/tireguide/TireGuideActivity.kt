@@ -1,25 +1,19 @@
 package com.droidsmith.tireguide
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.droidsmith.tireguide.calcengine.Calculator
 import com.droidsmith.tireguide.databinding.ActivityTireGuideBinding
-import com.droidsmith.tireguide.databinding.AppBarTireGuideBinding
-import com.droidsmith.tireguide.databinding.ContentTireGuideBinding
+import com.droidsmith.tireguide.extensions.openExternalUrl
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormat
@@ -29,8 +23,6 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     // This property is only valid between onCreateView and onDestroyView
     private lateinit var binding: ActivityTireGuideBinding
-    private lateinit var appBarBinding: AppBarTireGuideBinding
-    private lateinit var contentBinding: ContentTireGuideBinding
 
     private var totalWeight: Double = 0.0
     private var frontLoadWeight: Double = 0.0
@@ -46,16 +38,14 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         binding = ActivityTireGuideBinding.inflate(layoutInflater)
         val view = binding.root
-        appBarBinding = AppBarTireGuideBinding.bind(view)
-        contentBinding = ContentTireGuideBinding.bind(view)
         setContentView(view)
-        setSupportActionBar(appBarBinding.toolbar)
+        setSupportActionBar(binding.appBarTireGuide.toolbar)
         tirePressureDataBase = TirePressureDataBase(this)
 
         val toggle = ActionBarDrawerToggle(
                 this,
                 binding.drawerLayout,
-                appBarBinding.toolbar,
+                binding.appBarTireGuide.toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         )
@@ -64,52 +54,52 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
 
         binding.navigationView.setNavigationItemSelectedListener(this)
-        appBarBinding.fab.setOnClickListener { button ->
+        binding.appBarTireGuide.fab.setOnClickListener { button ->
             hideKeyboard(this@TireGuideActivity)
             onAddProfile(button)
         }
 
-        contentBinding.profileName.setOnEditorActionListener { _, actionId, _ ->
+        binding.appBarTireGuide.contentTireGuide.profileText.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                contentBinding.bodyWeight.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.requestFocus()
                 handled = true
             }
 
             handled
         }
 
-        contentBinding.bodyWeight.setOnEditorActionListener { _, actionId, _ ->
+        binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                contentBinding.bikeWeight.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.requestFocus()
                 handled = true
             }
 
             handled
         }
 
-        contentBinding.bikeWeight.setOnEditorActionListener { _, actionId, _ ->
+        binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                contentBinding.frontLoad.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.frontLoadEdit.requestFocus()
                 handled = true
             }
 
             handled
         }
 
-        contentBinding.frontLoad.setOnEditorActionListener { _, actionId, _ ->
+        binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                contentBinding.rearLoad.requestFocus()
+                binding.appBarTireGuide.contentTireGuide.rearLoadEdit.requestFocus()
                 handled = true
             }
 
             handled
         }
 
-        contentBinding.rearLoad.setOnEditorActionListener { load, actionId, _ ->
+        binding.appBarTireGuide.contentTireGuide.rearLoadEdit.setOnEditorActionListener { load, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -127,7 +117,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 R.layout.spinner_item
         )
         riderTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        contentBinding.riderType.adapter = riderTypeAdapter
+        binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.adapter = riderTypeAdapter
 
         val frontWidthAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -135,7 +125,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 R.layout.spinner_item
         )
         frontWidthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        contentBinding.frontWidth.adapter = frontWidthAdapter
+        binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.adapter = frontWidthAdapter
 
         val rearWidthAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -143,7 +133,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 R.layout.spinner_item
         )
         rearWidthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        contentBinding.rearWidth.adapter = rearWidthAdapter
+        binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.adapter = rearWidthAdapter
 
         val frontLoadAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -151,7 +141,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 R.layout.spinner_item
         )
         frontLoadAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        contentBinding.frontLoadUnits.adapter = frontLoadAdapter
+        binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.adapter = frontLoadAdapter
 
         val rearLoadAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -159,34 +149,29 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 R.layout.spinner_item
         )
         rearLoadAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        contentBinding.rearLoadUnits.adapter = rearLoadAdapter
+        binding.appBarTireGuide.contentTireGuide.rearLoadUnits.adapter = rearLoadAdapter
 
-        contentBinding.riderType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-            ) {
+        binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (!itemSelectedFromProfile) {
                     when (parent.selectedItem) {
                         RACER -> {
-                            contentBinding.frontLoad.setText(RACER_FRONT)
-                            contentBinding.frontLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
-                            contentBinding.rearLoad.setText(RACER_REAR)
-                            contentBinding.rearLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setText(RACER_FRONT)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.setSelection(0, true)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadEdit.setText(RACER_REAR)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadUnits.setSelection(0, true)
                         }
                         SPORT -> {
-                            contentBinding.frontLoad.setText(SPORT_FRONT)
-                            contentBinding.frontLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
-                            contentBinding.rearLoad.setText(SPORT_REAR)
-                            contentBinding.rearLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setText(SPORT_FRONT)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.setSelection(0, true)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadEdit.setText(SPORT_REAR)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadUnits.setSelection(0, true)
                         }
                         else -> {
-                            contentBinding.frontLoad.setText(CASUAL_FRONT)
-                            contentBinding.frontLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
-                            contentBinding.rearLoad.setText(CASUAL_REAR)
-                            contentBinding.rearLoadUnits.setSelection(0, java.lang.Boolean.TRUE)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setText(CASUAL_FRONT)
+                            binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.setSelection(0, true)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadEdit.setText(CASUAL_REAR)
+                            binding.appBarTireGuide.contentTireGuide.rearLoadUnits.setSelection(0, true)
                         }
                     }
                 }
@@ -197,7 +182,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        contentBinding.calculateTirePressure.setOnClickListener {
+        binding.appBarTireGuide.contentTireGuide.calculateButton.setOnClickListener {
             onCalculateTirePressure()
         }
 
@@ -207,11 +192,11 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (frontLoadPercent > 0) {
-            contentBinding.frontLoad.setText(fmt(frontLoadPercent))
+            binding.appBarTireGuide.contentTireGuide.frontLoadEdit.setText(fmt(frontLoadPercent))
         }
 
         if (rearLoadPercent > 0) {
-            contentBinding.rearLoad.setText(fmt(rearLoadPercent))
+            binding.appBarTireGuide.contentTireGuide.rearLoadEdit.setText(fmt(rearLoadPercent))
         }
     }
 
@@ -256,51 +241,51 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         profile.moveToFirst()
         while (!profile.isAfterLast) {
             itemSelectedFromProfile = true
-            contentBinding.profileName.setText(profile.getString(Profiles.PROFILE_NAME))
+            binding.appBarTireGuide.contentTireGuide.profileEdit.setText(profile.getString(Profiles.PROFILE_NAME))
             bodyWeightAmount = profile.getDouble(Profiles.BODY_WEIGHT)
-            contentBinding.bodyWeight.setText(fmt(bodyWeightAmount))
+            binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.setText(fmt(bodyWeightAmount))
 
             bikeWeightAmount = profile.getDouble(Profiles.BIKE_WEIGHT)
-            contentBinding.bikeWeight.setText(fmt(bikeWeightAmount))
+            binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.setText(fmt(bikeWeightAmount))
 
             when (profile.getString(Profiles.RIDER_TYPE)) {
-                RACER -> contentBinding.riderType.setSelection(0)
-                SPORT -> contentBinding.riderType.setSelection(1)
-                CASUAL -> contentBinding.riderType.setSelection(2)
-                else -> contentBinding.riderType.setSelection(2) // Default to Casual
+                RACER -> binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.setSelection(0)
+                SPORT -> binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.setSelection(1)
+                CASUAL -> binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.setSelection(2)
+                else -> binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.setSelection(2) // Default to Casual
             }
 
             // There has to be a better way than checking every value
             when (profile.getString(Profiles.FRONT_TIRE_WIDTH)) {
-                "20" -> contentBinding.frontWidth.setSelection(0)
-                "21" -> contentBinding.frontWidth.setSelection(1)
-                "22" -> contentBinding.frontWidth.setSelection(2)
-                "23" -> contentBinding.frontWidth.setSelection(3)
-                "24" -> contentBinding.frontWidth.setSelection(4)
-                "25" -> contentBinding.frontWidth.setSelection(5)
-                "26" -> contentBinding.frontWidth.setSelection(6)
-                "27" -> contentBinding.frontWidth.setSelection(7)
-                "28" -> contentBinding.frontWidth.setSelection(8)
-                else -> contentBinding.frontWidth.setSelection(5) //Default to 25mm
+                "20" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(0)
+                "21" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(1)
+                "22" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(2)
+                "23" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(3)
+                "24" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(4)
+                "25" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(5)
+                "26" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(6)
+                "27" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(7)
+                "28" -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(8)
+                else -> binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.setSelection(5) //Default to 25mm
             }
 
             when (profile.getString(Profiles.REAR_TIRE_WIDTH)) {
-                "20" -> contentBinding.rearWidth.setSelection(0)
-                "21" -> contentBinding.rearWidth.setSelection(1)
-                "22" -> contentBinding.rearWidth.setSelection(2)
-                "23" -> contentBinding.rearWidth.setSelection(3)
-                "24" -> contentBinding.rearWidth.setSelection(4)
-                "25" -> contentBinding.rearWidth.setSelection(5)
-                "26" -> contentBinding.rearWidth.setSelection(6)
-                "27" -> contentBinding.rearWidth.setSelection(7)
-                else -> contentBinding.rearWidth.setSelection(8)
+                "20" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(0)
+                "21" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(1)
+                "22" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(2)
+                "23" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(3)
+                "24" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(4)
+                "25" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(5)
+                "26" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(6)
+                "27" -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(7)
+                else -> binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.setSelection(8)
             }
 
             frontLoadPercent = profile.getDouble(Profiles.FRONT_LOAD_PERCENT)
-            contentBinding.frontLoad.setText(fmt(frontLoadPercent))
+            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = fmt(frontLoadPercent)
 
             rearLoadPercent = profile.getDouble(Profiles.REAR_LOAD_PERCENT)
-            contentBinding.rearLoad.setText(fmt(rearLoadPercent))
+            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = fmt(rearLoadPercent)
             profile.moveToNext()
         }
     }
@@ -323,31 +308,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 // TODO I'm going to remember what this is some day
             }
             R.id.navigationHelp -> {
-                val myMime = MimeTypeMap.getSingleton()
-                val mimeType = myMime.getMimeTypeFromExtension(PDF)
-                val uri = Uri.parse(TIRE_INFLATION_PDF)
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(uri, mimeType)
-                val packageManager = packageManager
-                val activities = packageManager.queryIntentActivities(intent, 0)
-                if (activities.isNotEmpty()) {
-                    val chooser = Intent.createChooser(intent, "Choose a PDF Viewer")
-                    startActivity(chooser)
-                } else {
-                    // If no internal viewer is present, then allow Google Docs Viewer to view the PDF.
-                    intent.data = Uri.parse(GOOGLE_DOC_URL + TIRE_INFLATION_PDF)
-                    try {
-                        startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(
-                                this,
-                                "No Application Available to View PDF files",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                }
+                openExternalUrl(TIRE_INFLATION_PDF)
             }
         }
 
@@ -358,14 +319,14 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     private fun onAddProfile(view: View) {
-        val profileNameText = if (contentBinding.profileName.text.isNullOrEmpty()) {
+        val profileNameText = if (binding.appBarTireGuide.contentTireGuide.profileEdit.text.isNullOrEmpty()) {
             DEFAULT
         } else {
-            contentBinding.profileName.text.toString()
+            binding.appBarTireGuide.contentTireGuide.profileEdit.text.toString()
         }
-        val riderTypeText = contentBinding.riderType.selectedItem.toString()
-        val frontTireWidth = contentBinding.frontWidth.selectedItem.toString()
-        val rearTireWidth = contentBinding.rearWidth.selectedItem.toString()
+        val riderTypeText = binding.appBarTireGuide.contentTireGuide.riderTypeSpinner.selectedItem.toString()
+        val frontTireWidth = binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.selectedItem.toString()
+        val rearTireWidth = binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.selectedItem.toString()
         onCalculateTirePressure()
         val profile = tirePressureDataBase.addProfile(
                 profileNameText,
@@ -378,11 +339,11 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 rearLoadPercent
         )
         if (profile.toFloat() == 0f) {
-            Snackbar.make(view, "Updated existing record", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, R.string.updated_existing_profile, Snackbar.LENGTH_SHORT).show()
         } else {
             Snackbar.make(
                     view,
-                    "Created a new record with id: $profile",
+                    getString(R.string.created_new_profile, profile),
                     Snackbar.LENGTH_SHORT
             ).show()
         }
@@ -390,77 +351,77 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     private fun onCalculateTirePressure() {
         hideKeyboard(this)
-        bodyWeightAmount = if (contentBinding.bodyWeight.text.isNullOrEmpty()) {
+        bodyWeightAmount = if (binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.text.isNullOrEmpty()) {
             0.0
         } else {
-            contentBinding.bodyWeight.text.toString().toDouble()
+            binding.appBarTireGuide.contentTireGuide.bodyWeightEdit.text.toString().toDouble()
         }
-        bikeWeightAmount = if (contentBinding.bikeWeight.text.isNullOrEmpty()) {
+        bikeWeightAmount = if (binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.text.isNullOrEmpty()) {
             0.0
         } else {
-            contentBinding.bikeWeight.text.toString().toDouble()
+            binding.appBarTireGuide.contentTireGuide.bikeWeightEdit.text.toString().toDouble()
         }
-        val frontLoadText = if (contentBinding.frontLoad.text.isNullOrEmpty()) {
+        val frontLoadText = if (binding.appBarTireGuide.contentTireGuide.frontLoadEdit.text.isNullOrEmpty()) {
             "0.0"
         } else {
-            contentBinding.frontLoad.text.toString()
+            binding.appBarTireGuide.contentTireGuide.frontLoadEdit.text.toString()
         }
-        val rearLoadText = if (contentBinding.rearLoad.text.isNullOrEmpty()) {
+        val rearLoadText = if (binding.appBarTireGuide.contentTireGuide.rearLoadEdit.text.isNullOrEmpty()) {
             "0.0"
         } else {
-            contentBinding.rearLoad.text.toString()
+            binding.appBarTireGuide.contentTireGuide.rearLoadEdit.text.toString()
         }
 
         totalWeight = bodyWeightAmount + bikeWeightAmount
-        contentBinding.totalWeightAmount.text = fmt(totalWeight)
-        val frontLoadItem = contentBinding.frontLoadUnits.selectedItem.toString()
+        binding.appBarTireGuide.contentTireGuide.totalWeightAmount.text = fmt(totalWeight)
+        val frontLoadItem = binding.appBarTireGuide.contentTireGuide.frontLoadUnitsSpinner.selectedItem.toString()
         if ("%" == frontLoadItem) {
             frontLoadPercent = frontLoadText.toDouble()
             frontLoadWeight = totalWeight * frontLoadPercent / 100
-            contentBinding.frontLoadPercentAmount.text = String.format(
+            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = String.format(
                     " " + getString(R.string.loadPercentLabel),
                     frontLoadText
             )
         } else {
             frontLoadPercent = frontLoadText.toDouble() * 100 / totalWeight
             frontLoadWeight = frontLoadText.toDouble()
-            contentBinding.frontLoadPercentAmount.text = String.format(
+            binding.appBarTireGuide.contentTireGuide.frontLoadPercentAmount.text = String.format(
                     " " + getString(R.string.loadPercentLabel),
                     fmt(frontLoadPercent)
             )
         }
 
-        val rearLoadItem = contentBinding.rearLoadUnits.selectedItem.toString()
+        val rearLoadItem = binding.appBarTireGuide.contentTireGuide.rearLoadUnits.selectedItem.toString()
         if ("%" == rearLoadItem) {
             rearLoadPercent = rearLoadText.toDouble()
             rearLoadWeight = totalWeight * rearLoadPercent / 100
-            contentBinding.rearLoadPercentAmount.text = String.format(
+            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = String.format(
                     " " + getString(R.string.loadPercentLabel),
                     rearLoadText
             )
         } else {
             rearLoadPercent = rearLoadText.toDouble() * 100 / totalWeight
             rearLoadWeight = rearLoadText.toDouble()
-            contentBinding.rearLoadPercentAmount.text = String.format(
+            binding.appBarTireGuide.contentTireGuide.rearLoadPercentAmount.text = String.format(
                     " " + getString(R.string.loadPercentLabel),
                     fmt(rearLoadPercent)
             )
         }
 
-        contentBinding.frontLoadWeightAmount.text = fmt(frontLoadWeight.roundToLong().toDouble())
-        contentBinding.rearLoadWeightAmount.text = fmt(rearLoadWeight.roundToLong().toDouble())
+        binding.appBarTireGuide.contentTireGuide.frontLoadAmount.text = fmt(frontLoadWeight.roundToLong().toDouble())
+        binding.appBarTireGuide.contentTireGuide.rearLoadAmount.text = fmt(rearLoadWeight.roundToLong().toDouble())
         val frontTireCalculator = Calculator()
-        contentBinding.frontTire.text = fmt(
+        binding.appBarTireGuide.contentTireGuide.frontTirePressure.text = fmt(
                 frontTireCalculator.psi(
                         frontLoadWeight,
-                        contentBinding.frontWidth.selectedItem.toString()
+                        binding.appBarTireGuide.contentTireGuide.frontWidthSpinner.selectedItem.toString()
                 )
         )
         val rearTireCalculator = Calculator()
-        contentBinding.rearTire.text = fmt(
+        binding.appBarTireGuide.contentTireGuide.rearTirePressure.text = fmt(
                 rearTireCalculator.psi(
                         rearLoadWeight,
-                        contentBinding.rearWidth.selectedItem.toString()
+                        binding.appBarTireGuide.contentTireGuide.rearWidthSpinner.selectedItem.toString()
                 )
         )
     }
