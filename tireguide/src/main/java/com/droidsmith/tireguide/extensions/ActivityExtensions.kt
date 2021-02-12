@@ -15,5 +15,5 @@ fun Activity.openExternalUrl(url: String) {
     }
 }
 
-fun Activity.requireActivity(): Activity =
+fun Activity?.requireActivity(): Activity =
     this ?: throw IllegalStateException("Activity is null. View may not be attached.")
