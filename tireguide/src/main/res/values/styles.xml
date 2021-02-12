@@ -1,11 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimaryVariant</item>
+        <item name="materialButtonStyle">@style/Widget.AppTheme.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.AppTheme.FloatingActionButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,16 +16,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Widget.AppTheme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="tint">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
     <style name="TextInputEditTextStandard">
         <item name="errorTextAppearance">@style/TextInputLayoutError</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:minHeight">@dimen/touch_target</item>
     </style>
 
@@ -37,6 +45,20 @@
     <style name="TextInputLayoutError" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AutoCompleteEditTextDropdown">
+        <item name="errorTextAppearance">@style/TextInputLayoutError</item>
+        <item name="minHeight">@dimen/touch_target</item>
+        <item name="android:colorControlActivated">@color/colorPrimaryVariant</item>
+        <item name="android:inputType">none</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingEnd">@dimen/spacing_10</item>
+        <item name="android:paddingStart">@dimen/spacing_10</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
 </resources>

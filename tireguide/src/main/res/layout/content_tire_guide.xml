@@ -33,202 +33,252 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="@string/profile_name"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/profile_name"
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:maxLength="32"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusDown="@+id/riderTypeSpinner"
-            android:nextFocusForward="@+id/riderTypeSpinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/profileText"
             app:layout_constraintTop_toBottomOf="@+id/profileText" />
 
         <TextView
-            android:id="@+id/riderTypeText"
-            android:layout_width="0dp"
+            android:id="@+id/bodyWeightText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:text="@string/rider_type"
+            android:text="@string/body_weight"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bodyWeightUnitsText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileEdit" />
 
-        <Spinner
-            android:id="@+id/riderTypeSpinner"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/bodyWeightUnitsText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/profileEdit"
-            android:nextFocusDown="@+id/bodyWeightEdit"
-            android:nextFocusForward="@+id/bodyWeightEdit"
-            app:layout_constraintStart_toStartOf="@+id/profileText"
-            app:layout_constraintTop_toBottomOf="@+id/riderTypeText" />
+            android:layout_marginStart="@dimen/spacing_4"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:text="@string/lbs"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/bodyWeightText"
+            app:layout_constraintEnd_toStartOf="@+id/bikeWeightText"
+            app:layout_constraintStart_toEndOf="@+id/bodyWeightText" />
 
         <TextView
-            android:id="@+id/weightText"
+            android:id="@+id/bikeWeightText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:text="@string/weights"
+            android:text="@string/bike_and_gear_weight"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/weightUnitsText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/riderTypeSpinner" />
+            app:layout_constraintEnd_toStartOf="@+id/bikeWeightUnitsText"
+            app:layout_constraintStart_toStartOf="@+id/tireWidthRearText"
+            app:layout_constraintTop_toBottomOf="@+id/profileEdit" />
 
         <TextView
-            android:id="@+id/weightUnitsText"
+            android:id="@+id/bikeWeightUnitsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_4"
             android:text="@string/lbs"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/weightText"
-            app:layout_constraintStart_toEndOf="@+id/weightText"
-            app:layout_constraintTop_toTopOf="@+id/weightText" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/bikeWeightText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bikeWeightText" />
 
         <EditText
             android:id="@+id/bodyWeightEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:autofillHints="@string/body_weight"
-            android:hint="@string/body_weight"
+            android:autofillHints="@string/body"
+            android:hint="@string/body"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:maxLength="5"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/riderTypeSpinner"
-            android:nextFocusDown="@+id/bikeWeightEdit"
-            android:nextFocusForward="@+id/bikeWeightEdit"
             app:layout_constraintEnd_toStartOf="@+id/bikeWeightEdit"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weightText" />
+            app:layout_constraintTop_toBottomOf="@+id/bodyWeightText" />
 
         <EditText
             android:id="@+id/bikeWeightEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/bike_weight"
-            android:hint="@string/bike_weight"
+            android:autofillHints="@string/bike_and_gear"
+            android:hint="@string/bike_and_gear"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:maxLength="5"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/bodyWeightEdit"
-            android:nextFocusDown="@+id/frontWidthSpinner"
-            android:nextFocusForward="@+id/frontWidthSpinner"
-            app:layout_constraintStart_toStartOf="@+id/rearWidthText"
-            app:layout_constraintTop_toBottomOf="@+id/weightText" />
+            app:layout_constraintStart_toStartOf="@+id/tireWidthRearText"
+            app:layout_constraintTop_toBottomOf="@+id/bikeWeightText" />
 
         <TextView
-            android:id="@+id/tireWidthsText"
+            android:id="@+id/tireWidthFrontText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:text="@string/tire_width"
+            android:text="@string/front_tire_width"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tireWidthRearText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bodyWeightEdit" />
 
         <TextView
-            android:id="@+id/frontWidthText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/front"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintBottom_toBottomOf="@+id/frontWidthSpinner"
-            app:layout_constraintEnd_toStartOf="@+id/frontWidthSpinner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/frontWidthSpinner" />
-
-        <Spinner
-            android:id="@+id/frontWidthSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_8"
-            android:focusable="true"
-            android:hint="@string/tire_width"
-            android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/bikeWeightEdit"
-            android:nextFocusDown="@+id/rearWidthSpinner"
-            android:nextFocusForward="@+id/rearWidthSpinner"
-            app:layout_constraintStart_toEndOf="@+id/frontWidthText"
-            app:layout_constraintTop_toBottomOf="@+id/tireWidthsText" />
-
-        <TextView
-            android:id="@+id/frontWidthUnitsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/millimeters"
-            app:layout_constraintBaseline_toBaselineOf="@+id/frontWidthText"
-            app:layout_constraintStart_toEndOf="@+id/frontWidthSpinner" />
-
-        <TextView
-            android:id="@+id/rearWidthText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_16"
-            android:text="@string/rear"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintBaseline_toBaselineOf="@+id/frontWidthText"
-            app:layout_constraintStart_toEndOf="@+id/frontWidthUnitsText"
-            app:layout_constraintTop_toBottomOf="@+id/tireWidthsText" />
-
-        <Spinner
-            android:id="@+id/rearWidthSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_8"
-            android:focusable="true"
-            android:hint="@string/rear"
-            android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/frontWidthSpinner"
-            android:nextFocusDown="@+id/frontLoadEdit"
-            android:nextFocusForward="@+id/frontLoadEdit"
-            app:layout_constraintStart_toEndOf="@+id/rearWidthText"
-            app:layout_constraintTop_toBottomOf="@+id/tireWidthsText" />
-
-        <TextView
-            android:id="@+id/rearWidthUnitsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/millimeters"
-            app:layout_constraintBaseline_toBaselineOf="@+id/rearWidthText"
-            app:layout_constraintStart_toEndOf="@+id/rearWidthSpinner" />
-
-        <TextView
-            android:id="@+id/loadText"
+            android:id="@+id/tireWidthRearText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:text="@string/tire_load"
+            android:text="@string/rear_tire_width"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tireWidthFrontText"
+            app:layout_constraintTop_toBottomOf="@+id/bodyWeightEdit" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputFrontTireType"
+            style="@style/TextInputLayoutDropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/frontWidthSpinner"
+            app:layout_constraintEnd_toStartOf="@id/frontWidthUnitsText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rearWidthSpinner" />
+            app:layout_constraintTop_toBottomOf="@+id/tireWidthFrontText">
+
+            <AutoCompleteTextView
+                android:id="@+id/frontWidthSpinner"
+                style="@style/AutoCompleteEditTextDropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/frontWidthUnitsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            android:text="@string/millimeters"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textInputFrontTireType"
+            app:layout_constraintStart_toEndOf="@+id/textInputFrontTireType" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputRearTireType"
+            style="@style/TextInputLayoutDropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/rearWidthSpinner"
+            app:layout_constraintStart_toStartOf="@+id/tireWidthRearText"
+            app:layout_constraintTop_toBottomOf="@+id/tireWidthRearText">
+
+            <AutoCompleteTextView
+                android:id="@+id/rearWidthSpinner"
+                style="@style/AutoCompleteEditTextDropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/rearWidthUnitsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            android:text="@string/millimeters"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textInputRearTireType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textInputRearTireType" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputRiderType"
+            style="@style/TextInputLayoutDropdown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:hint="@string/rider_type"
+            android:labelFor="@+id/riderTypeSpinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputFrontTireType">
+
+            <AutoCompleteTextView
+                android:id="@+id/riderTypeSpinner"
+                style="@style/AutoCompleteEditTextDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/frontLoadText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="@string/front_tire_load"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/frontLoadUnitsText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputRiderType" />
+
+        <TextView
+            android:id="@+id/frontLoadUnitsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:text="@string/load_units"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/frontLoadText"
+            app:layout_constraintEnd_toStartOf="@id/rearLoadText"
+            app:layout_constraintStart_toEndOf="@id/frontLoadText" />
+
+        <TextView
+            android:id="@+id/rearLoadText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="@string/rear_tire_load"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/rearLoadUnitsText"
+            app:layout_constraintStart_toStartOf="@id/tireWidthRearText"
+            app:layout_constraintTop_toBottomOf="@+id/textInputRiderType" />
+
+        <TextView
+            android:id="@+id/rearLoadUnitsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="@string/load_units"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/rearLoadText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rearLoadText" />
 
         <EditText
             android:id="@+id/frontLoadEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autofillHints="@string/front"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/front"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
-            android:maxLength="4"
+            android:maxLength="5"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/rearWidthSpinner"
-            android:nextFocusDown="@+id/frontLoadUnitsSpinner"
-            android:nextFocusForward="@+id/frontLoadUnitsSpinner"
+            app:layout_constraintBottom_toBottomOf="@+id/frontLoadUnitsSpinner"
             app:layout_constraintEnd_toStartOf="@+id/frontLoadUnitsSpinner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadText" />
+            app:layout_constraintTop_toTopOf="@+id/frontLoadUnitsSpinner" />
 
         <Spinner
             android:id="@+id/frontLoadUnitsSpinner"
@@ -236,12 +286,8 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/frontLoadEdit"
-            android:nextFocusDown="@+id/rearLoadEdit"
-            android:nextFocusForward="@+id/rearLoadEdit"
-            app:layout_constraintBottom_toBottomOf="@+id/frontLoadEdit"
             app:layout_constraintStart_toEndOf="@+id/frontLoadEdit"
-            app:layout_constraintTop_toTopOf="@+id/frontLoadEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/frontLoadText" />
 
         <EditText
             android:id="@+id/rearLoadEdit"
@@ -253,36 +299,27 @@
             android:inputType="numberDecimal"
             android:maxLength="5"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/frontLoadUnitsSpinner"
-            android:nextFocusDown="@+id/rearLoadUnits"
-            android:nextFocusForward="@+id/rearLoadUnits"
-            app:layout_constraintEnd_toStartOf="@+id/rearLoadUnits"
-            app:layout_constraintStart_toEndOf="@+id/frontLoadUnitsSpinner"
-            app:layout_constraintStart_toStartOf="@+id/rearWidthText"
-            app:layout_constraintTop_toBottomOf="@+id/loadText" />
+            app:layout_constraintBottom_toBottomOf="@+id/rearLoadUnitsSpinner"
+            app:layout_constraintEnd_toStartOf="@+id/rearLoadUnitsSpinner"
+            app:layout_constraintStart_toStartOf="@+id/tireWidthRearText"
+            app:layout_constraintTop_toTopOf="@+id/rearLoadUnitsSpinner" />
 
         <Spinner
-            android:id="@+id/rearLoadUnits"
+            android:id="@+id/rearLoadUnitsSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:minHeight="@dimen/touch_target"
-            android:nextFocusUp="@+id/rearLoadEdit"
-            android:nextFocusDown="@+id/calculateButton"
-            android:nextFocusForward="@+id/calculateButton"
-            app:layout_constraintBottom_toBottomOf="@+id/rearLoadEdit"
             app:layout_constraintStart_toEndOf="@+id/rearLoadEdit"
-            app:layout_constraintTop_toTopOf="@+id/rearLoadEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/rearLoadText" />
 
         <Button
             android:id="@+id/calculateButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:background="@color/colorAccent"
-            android:nextFocusUp="@+id/rearLoadUnits"
+            android:minHeight="@dimen/touch_target"
             android:text="@string/calculate"
-            android:textColor="@android:color/primary_text_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -319,7 +356,7 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/frontTireText"
             app:layout_constraintEnd_toStartOf="@+id/frontTireUnitsText"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/rearWidthText" />
+            app:layout_constraintStart_toStartOf="@+id/tireWidthRearText" />
 
         <TextView
             android:id="@+id/frontTireUnitsText"

@@ -14,3 +14,6 @@ fun Activity.openExternalUrl(url: String) {
         Log.e(Intent.ACTION_VIEW, "Intent could not be resolved to open external URL: $url", e)
     }
 }
+
+fun Activity.requireActivity(): Activity =
+    this ?: throw IllegalStateException("Activity is null. View may not be attached.")
