@@ -154,7 +154,7 @@ class TireGuideActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         contentTireGuide.frontLoadEdit.setText(CASUAL_FRONT)
-        contentTireGuide.frontLoadEdit.setOnEditorActionListener { load, actionId, event ->
+        contentTireGuide.frontLoadEdit.setOnEditorActionListener { _, actionId, event ->
             var handled = false
             if (wasReturnPressed(actionId, event)) {
                 contentTireGuide.rearLoadEdit.requestFocus()
