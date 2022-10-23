@@ -10,10 +10,10 @@ import com.droidsmith.tireguide.TireGuideActivity
  * The initial splash screen.
  */
 class SplashActivity : AppCompatActivity() {
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		val intent = Intent(this, TireGuideActivity::class.java)
-		startActivity(intent)
-		finish()
-	}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent(this, TireGuideActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
